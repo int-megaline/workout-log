@@ -755,8 +755,7 @@
             </div>
           </button>
           <div class="collapse-body"><div class="collapse-inner">
-            <div class="week-stack-list" id="rankBarWrap"></div>
-            <div class="hrow-list" id="rankList" style="margin-top:16px;"></div>
+            <div class="hrow-list" id="rankList"></div>
           </div></div>
         </div>
       </section>
@@ -1406,9 +1405,8 @@
       '<p>'+title+'</p><span>'+desc+'</span></div>';
   }
 
-  /* ---------------- 부위별 누적 비중 (전체 기간 누적 가로 막대 + 아이콘 목록) ---------------- */
+  /* ---------------- 부위별 누적 비중 (전체 기간 누적 · 최댓값 기준 상대 막대 목록) ---------------- */
   function renderRank(){
-    var barWrap = document.getElementById('rankBarWrap');
     var listEl = document.getElementById('rankList');
     var bodyPartTotals = computeBodyPartTotals();
     var entries = Object.keys(bodyPartTotals).map(function(k){return [k, bodyPartTotals[k]];}).filter(function(e){ return e[1]>0; });
@@ -1417,20 +1415,11 @@
     var periodEl = document.getElementById('rankPeriod');
     periodEl.textContent = first ? (fmtPeriodDate(first)+' ~ '+fmtPeriodDate(new Date())+' 누적') : '기록 없음';
     if(entries.length===0){
-      barWrap.innerHTML = '';
       listEl.innerHTML = emptyStateHTML('아직 누적 기록이 없음', '기록 입력 탭에서 첫 운동을 저장하면 부위별 비중이 이곳에 표시됨');
       return;
     }
     var total = entries.reduce(function(s,e){ return s+e[1]; },0);
     var maxVal = entries[0][1]; // 내림차순 정렬 — 첫 항목이 최댓값
-    var segs = entries.map(function(e){
-      var share = Math.round(e[1]/total*100);
-      return '<div class="week-seg" style="width:'+share+'%; background:'+partColor(e[0])+'" title="'+e[0]+' '+e[1].toLocaleString()+'kg ('+share+'%)"></div>';
-    }).join('');
-    barWrap.innerHTML =
-      '<div class="week-row"><div class="week-row-head"><span class="wname">전체 기간 누적</span>'+
-      '<span class="wtotal num">'+total.toLocaleString()+'kg</span></div>'+
-      '<div class="week-bar">'+segs+'</div></div>';
 
     // 최댓값 부위가 전폭(100%)이 되도록 최댓값 기준 상대 비율로 막대를 표기함(라벨의 %는 전체 대비 비중으로 별도 표기)
     listEl.innerHTML = entries.map(function(e){
