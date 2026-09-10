@@ -354,44 +354,10 @@
   .day-detail-list{ display:flex; flex-direction:column; gap:8px; }
   .day-detail-hint{ font-size:10.5px; color:var(--muted); text-align:center; margin:2px 0 0; }
 
-  /* ---------- 부위 아이콘 공통 ---------- */
+  /* ---------- 부위 아이콘 공통(부위별 누적 비중에서 사용) ---------- */
   svg.icon{width:1em; height:1em; display:inline-block; vertical-align:-.15em;}
 
-  /* ---------- 부위 범례(전체 공통, 아이콘+색) ---------- */
-  .parts-legend{
-    display:flex; flex-wrap:wrap; gap:7px 12px; margin:0 0 16px;
-    padding:11px 13px; background:var(--surface); border:1px solid var(--border); border-radius:12px;
-    box-shadow:var(--shadow);
-  }
-  .parts-legend .pl-item{display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--ink-soft);}
-  .pl-badge{
-    width:21px; height:21px; border-radius:7px; display:flex; align-items:center; justify-content:center; flex:none;
-    color:#fff;
-  }
-  .pl-badge svg{width:12px; height:12px;}
-
-  /* ---------- 최근 7일: 총 볼륨 바 + 하단 아이콘 스트립 ---------- */
-  .daily-head-row{display:flex; align-items:center; justify-content:flex-end; margin-bottom:10px;}
-  .sort-toggle{
-    flex:none; display:flex; align-items:center; gap:6px; cursor:pointer;
-    background:var(--surface-2); border:1px solid var(--border); border-radius:999px;
-    padding:7px 12px 7px 10px; font-family:inherit; font-size:11.5px; font-weight:700;
-    color:var(--ink-soft);
-  }
-  .sort-toggle:hover{border-color:var(--border-strong);}
-  .sort-toggle svg{width:14px; height:14px; flex:none;}
-  .strip-wrap{display:flex; flex-direction:column; gap:0;}
-  .strip-bars{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; align-items:end; height:140px; padding:0 2px;}
-  .strip-col{display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end; cursor:pointer; border:none; background:none; padding:0; font:inherit;}
-  .strip-bar{width:100%; max-width:34px; border-radius:6px 6px 3px 3px; background:var(--accent-2); transition:opacity .15s ease;}
-  .strip-col:hover .strip-bar{opacity:.8;}
-  .strip-icons{display:flex; gap:3px; flex-wrap:wrap; justify-content:center; min-height:19px;}
-  .strip-icon{width:18px; height:18px; border-radius:5px; display:flex; align-items:center; justify-content:center; color:#fff; flex:none;}
-  .strip-icon svg{width:11px; height:11px;}
-  .strip-labels{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-top:7px;}
-  .strip-labels span{text-align:center; font-size:10px; color:var(--muted);}
-
-  /* ---------- 3주간 / 부위별 누적 비중: 누적 가로 막대 ---------- */
+  /* ---------- 부위별 누적 비중: 누적 가로 막대 ---------- */
   .week-stack-list{display:flex; flex-direction:column; gap:14px;}
   .week-row{display:flex; flex-direction:column; gap:6px;}
   .week-row-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px;}
@@ -715,8 +681,6 @@
           </div>
         </div>
 
-        <div class="parts-legend" id="partsLegendRow"></div>
-
         <div class="dash-grid">
           <div class="card collapsible" id="cardDaily">
             <button type="button" class="collapse-head">
@@ -727,16 +691,8 @@
               <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="collapse-body"><div class="collapse-inner">
-              <div class="daily-head-row">
-                <button type="button" class="sort-toggle" id="dailySortToggle">
-                  <svg class="icon" id="dailySortIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 4l-3 3M7 4l3 3M17 20V4M17 20l-3-3M17 20l3-3"/></svg>
-                  <span id="dailySortLabel">최신순</span>
-                </button>
-              </div>
-              <div class="strip-wrap">
-                <div class="strip-bars" id="dailyStripBars"></div>
-                <div class="strip-labels" id="dailyStripLabels"></div>
-              </div>
+              <div class="legend-row" id="dailyLegend" style="margin-top:0; padding-top:0; border-top:none; margin-bottom:8px;"></div>
+              <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
               <p class="day-detail-hint" id="dailyClickHint">막대를 누르면 그날 운동 상세 기록이 표시됨</p>
               <div class="day-detail" id="dayDetail" hidden></div>
             </div></div>
@@ -751,7 +707,10 @@
               <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="collapse-body"><div class="collapse-inner">
-              <div class="week-stack-list" id="weekStackList"></div>
+              <div class="legend-row" id="threeWeekLegend" style="margin-top:0; padding-top:0; border-top:none; margin-bottom:8px;"></div>
+              <div class="chart-wrap"><canvas id="threeWeekChart"></canvas></div>
+              <p class="day-detail-hint" id="threeWeekClickHint">막대를 누르면 부위별 주차 총 볼륨이 표시됨</p>
+              <div class="day-detail" id="weekPartDetail" hidden></div>
             </div></div>
           </div>
         </div>
@@ -1093,6 +1052,8 @@
         setTimeout(function(){
           try{
             if(card.id==='cardTrend' && statusInstance) statusInstance.resize();
+            if(card.id==='cardDaily' && dailyInstance) dailyInstance.resize();
+            if(card.id==='cardThreeWeek' && threeWeekInstance) threeWeekInstance.resize();
           }catch(e){}
         }, 380);
       }
@@ -1220,16 +1181,8 @@
   };
   function partIcon(part){ return PART_ICONS[part] || 'ic-chest'; }
   function iconSvg(iconId, extra){ return '<svg class="icon"'+(extra||'')+'><use href="#'+iconId+'"></use></svg>'; }
-  // 순차 팔레트 순서 그대로의 부위 목록(범례·3주간·누적비중 세그먼트 정렬 기준)
-  var PARTS_SEQ = Object.keys(PART_COLORS);
-
-  function renderPartsLegendRow(){
-    var el = document.getElementById('partsLegendRow');
-    if(!el) return;
-    el.innerHTML = PARTS_SEQ.map(function(p){
-      return '<span class="pl-item"><span class="pl-badge" style="background:'+partColor(p)+'">'+iconSvg(partIcon(p))+'</span>'+p+'</span>';
-    }).join('');
-  }
+  // 3주간 운동 기록 가로축 표기 순서 (지정된 순서, 목록에 없던 승모근은 맨 뒤에 추가)
+  var WEEK3_PART_ORDER = ["광배근","대흉근","삼각근","다리","둔근","복직근","상완삼두근","상완이두근","전완근","승모근"];
 
   function vol(w, reps){ return w * reps.reduce(function(a,b){return a+b;},0); }
 
@@ -1489,24 +1442,7 @@
 
   function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 
-  /* ---------------- 선형 회귀 (주간 볼륨 현황용) ---------------- */
-  function linreg(points){
-    var n = points.length;
-    var sumX=0,sumY=0,sumXY=0,sumXX=0;
-    points.forEach(function(p){ sumX+=p[0]; sumY+=p[1]; sumXY+=p[0]*p[1]; sumXX+=p[0]*p[0]; });
-    var slope = (n*sumXY - sumX*sumY) / (n*sumXX - sumX*sumX);
-    var intercept = (sumY - slope*sumX)/n;
-    var meanY = sumY/n, ssTot=0, ssRes=0;
-    points.forEach(function(p){
-      var pred = slope*p[0]+intercept;
-      ssRes += Math.pow(p[1]-pred,2);
-      ssTot += Math.pow(p[1]-meanY,2);
-    });
-    var r2 = ssTot===0 ? 0 : (1 - ssRes/ssTot);
-    return {slope:slope, intercept:intercept, r2:r2};
-  }
-
-  /* ---------------- 주간 볼륨 현황 (실측 산점도 + 추세선) ---------------- */
+  /* ---------------- 주간 볼륨 현황 (막대: 주간 볼륨 · 라인: 전주 대비 변화율, 이중축 미표시) ---------------- */
   var statusInstance = null;
   function renderWeeklyStatusChart(){
     var canvas = document.getElementById('weeklyStatusChart');
@@ -1521,10 +1457,10 @@
       var oldEmpty = host.querySelector('.empty-state');
       if(!oldEmpty){
         var wrap = document.createElement('div');
-        wrap.innerHTML = emptyStateHTML('아직 주간 데이터가 없음','2주 이상 기록이 쌓이면 추세선이 함께 표시됨');
+        wrap.innerHTML = emptyStateHTML('아직 주간 데이터가 없음','2주 이상 기록이 쌓이면 변화율 라인이 함께 표시됨');
         host.querySelector('.collapse-inner').appendChild(wrap.firstChild);
       }
-      document.getElementById('statusSubtitle').textContent = '기록이 쌓이면 실측값과 추세선이 표시됨';
+      document.getElementById('statusSubtitle').textContent = '기록이 쌓이면 주간 볼륨과 변화율이 표시됨';
       return;
     }
     var existingEmpty = host.querySelector('.empty-state'); if(existingEmpty) existingEmpty.remove();
@@ -1532,71 +1468,77 @@
 
     var ctx = canvas.getContext('2d');
     var accent = cssVar('--accent') || '#2a78d6';
+    var accent2 = cssVar('--accent-2') || '#1baf7a';
     var grid = cssVar('--grid') || '#e1e0d9';
     var ink = cssVar('--ink-soft') || '#52514e';
     var muted = cssVar('--muted') || '#898781';
-    var surface = cssVar('--surface') || '#ffffff';
     var dark = isDarkNow();
 
     // 최신 주차가 왼쪽에 오도록 내림차순 정렬 (원본 시트 차트와 동일한 표기 순서)
     var desc = weeklyTotals.slice().reverse();
     var labels = desc.map(function(w){ return String(w[0]); });
     var values = desc.map(function(w){ return w[1]; });
-
-    var canTrend = weeklyTotals.length>=2;
-    var reg = canTrend ? linreg(weeklyTotals) : {slope:0, intercept:weeklyTotals[0][1], r2:0};
-    var trend = desc.map(function(w){ return reg.slope*w[0] + reg.intercept; });
+    // 전주 대비 변화율(%) — asc(오래된→최신) 기준으로 계산한 뒤 desc 순서로 재배열
+    var pctByWn = {};
+    weeklyTotals.forEach(function(w, i){
+      if(i===0){ pctByWn[w[0]] = null; return; }
+      var prev = weeklyTotals[i-1][1];
+      pctByWn[w[0]] = prev>0 ? ((w[1]-prev)/prev*100) : null;
+    });
+    var pctValues = desc.map(function(w){ return pctByWn[w[0]]; });
+    var hasPct = pctValues.some(function(v){ return v!==null; });
     var wnMin = weeklyTotals[0][0], wnMax = weeklyTotals[weeklyTotals.length-1][0];
-    document.getElementById('statusSubtitle').textContent = canTrend
-      ? (wnMin+'주차 – '+wnMax+'주차 · 실측값과 추세선 (R² = '+reg.r2.toFixed(3)+')')
-      : (wnMin+'주차 · 실측값 1건 — 2주 이상 쌓이면 추세선 표시됨');
+    document.getElementById('statusSubtitle').textContent =
+      wnMin+'주차 – '+wnMax+'주차 · 주간 볼륨과 전주 대비 변화율'+(hasPct ? '' : ' — 2주 이상 쌓이면 변화율 라인이 표시됨');
 
     var datasets = [
       {
+        type:'bar',
         label:'Volume',
         data:values,
-        showLine:false,
-        pointRadius:4.5,
-        pointHoverRadius:6,
-        pointBackgroundColor:accent,
-        pointBorderColor:surface,
-        pointBorderWidth:1.5,
+        backgroundColor:accent2,
+        borderRadius:4,
+        borderSkipped:false,
+        maxBarThickness:34,
+        yAxisID:'y',
         datalabels:{
           display:true,
           color:ink,
-          font:{family:'Noto Sans KR', size:9},
+          font:{family:'Noto Sans KR', size:9, weight:'700'},
           formatter:function(v){ return v.toLocaleString(); },
-          align:function(c){ return c.dataIndex%2===0 ? 'end' : 'start'; },
-          anchor:function(c){ return c.dataIndex%2===0 ? 'end' : 'start'; },
-          offset:5
+          anchor:'end', align:'end', offset:2
         }
       }
     ];
-    if(canTrend){
+    if(hasPct){
       datasets.push({
-        label:'추세선',
-        data:trend,
         type:'line',
-        borderColor: dark ? 'rgba(195,194,183,.55)' : 'rgba(82,81,78,.45)',
-        borderWidth:1.5,
-        borderDash:[5,4],
-        pointRadius:0,
+        label:'전주 대비 변화율',
+        data:pctValues,
+        borderColor:accent,
+        backgroundColor:accent,
+        borderWidth:2,
+        pointRadius:3.5,
+        pointHoverRadius:5,
+        pointBackgroundColor:accent,
+        spanGaps:true,
         fill:false,
         tension:0,
+        yAxisID:'y1',
         datalabels:{ display:false }
       });
     }
 
     if(statusInstance){ statusInstance.destroy(); }
     statusInstance = new Chart(ctx, {
-      type:'line',
+      type:'bar',
       data:{
         labels:labels,
         datasets:datasets
       },
       options:{
         responsive:true, maintainAspectRatio:false,
-        layout:{ padding:{ top:14, bottom:2 } },
+        layout:{ padding:{ top:16, bottom:2 } },
         interaction:{ mode:'index', intersect:false },
         plugins:{
           legend:{ display:false },
@@ -1605,23 +1547,28 @@
             padding:10, cornerRadius:8, displayColors:false,
             titleFont:{family:'Noto Sans KR', size:11.5},
             bodyFont:{family:'Noto Sans KR', size:12, weight:'600'},
-            filter:function(item){ return item.dataset.label==='Volume'; },
             callbacks:{
               title:function(items){ return items[0].label+'주차'; },
-              label:function(c){ return c.parsed.y.toLocaleString()+' kg'; }
+              label:function(c){
+                if(c.dataset.label==='전주 대비 변화율'){
+                  return c.parsed.y===null ? '변화율: 이전 주 없음' : ('전주 대비 '+(c.parsed.y>=0?'+':'')+c.parsed.y.toFixed(1)+'%');
+                }
+                return '볼륨: '+c.parsed.y.toLocaleString()+' kg';
+              }
             }
           }
         },
         scales:{
           x:{ grid:{display:false}, ticks:{ color:muted, font:{family:'Noto Sans KR', size:9.5}, maxRotation:0, autoSkip:true, maxTicksLimit:19 } },
           y:{ grid:{color:grid, drawTicks:false}, border:{display:false},
-              ticks:{ color:ink, font:{family:'Noto Sans KR', size:10}, callback:function(v){ return (v/1000)+'k'; } } }
+              ticks:{ color:ink, font:{family:'Noto Sans KR', size:10}, callback:function(v){ return (v/1000)+'k'; } } },
+          y1:{ display:false, position:'right' }
         }
       }
     });
-    renderStatusLegend(reg, canTrend);
+    renderStatusLegend(hasPct);
   }
-  function renderStatusLegend(reg, canTrend){
+  function renderStatusLegend(hasPct){
     var host = document.getElementById('cardTrend');
     if(!host) return;
     var el = host.querySelector('.status-legend');
@@ -1631,59 +1578,162 @@
       host.querySelector('.collapse-inner').appendChild(el);
     }
     var accent = cssVar('--accent') || '#2a78d6';
+    var accent2 = cssVar('--accent-2') || '#1baf7a';
     el.innerHTML =
-      '<span class="legend-chip"><span class="dot" style="background:'+accent+'"></span>Volume(실측)</span>'+
-      (canTrend ? '<span class="legend-chip"><span class="dot" style="background:none; border:none; width:14px; height:0; border-top:1.5px dashed var(--muted);"></span>추세선 · R² = '+reg.r2.toFixed(3)+'</span>' : '');
+      '<span class="legend-chip"><span class="dot" style="background:'+accent2+'"></span>주간 볼륨(막대)</span>'+
+      (hasPct ? '<span class="legend-chip"><span class="dot" style="background:'+accent+'"></span>전주 대비 변화율(라인)</span>' : '');
   }
 
-  /* ---------------- 3주간 운동 기록 (주별 부위 누적 가로 막대, 최신 주가 위) ---------------- */
+  /* ---------------- 3주간 운동 기록 (부위 x 주차 누적 막대 — 아래 이번 주 / 위 2주 전) ---------------- */
+  var threeWeekInstance = null;
+  var _lastWeekBodyPart3 = null;
+  // 주차 슬롯 색상: 이번 주(하단, 블루) → 전주(중단, 틸) → 2주 전(상단, 그린)
+  var WEEK3_COLORS = [
+    {light:"#2a78d6", dark:"#3987e5"},
+    {light:"#1ea597", dark:"#2bbfae"},
+    {light:"#1baf7a", dark:"#28b781"}
+  ];
+  function week3Color(slotIdx){
+    var c = WEEK3_COLORS[slotIdx] || WEEK3_COLORS[WEEK3_COLORS.length-1];
+    return isDarkNow() ? c.dark : c.light;
+  }
   function renderThreeWeekChart(){
-    var el = document.getElementById('weekStackList');
-    if(!el) return;
+    var canvas = document.getElementById('threeWeekChart');
+    if(!canvas || !window.Chart) return;
     var host = document.getElementById('cardThreeWeek');
     var weekBodyPart3 = computeWeekBodyPart3();
+    _lastWeekBodyPart3 = weekBodyPart3;
     var subEl = document.getElementById('threeWeekSub');
     if(subEl){
       subEl.textContent = weekBodyPart3.labels.length>0
-        ? (weekBodyPart3.labels[0]+'–'+weekBodyPart3.labels[weekBodyPart3.labels.length-1]+' · 주별 부위 구성')
-        : '기록이 쌓이면 주별 부위 구성이 표시됨';
+        ? (weekBodyPart3.labels[0]+'–'+weekBodyPart3.labels[weekBodyPart3.labels.length-1]+' · 부위별 · 주차별 구성')
+        : '기록이 쌓이면 부위별 · 주차별 구성이 표시됨';
     }
 
+    hideWeekPartDetail();
+
     if(weekBodyPart3.labels.length===0){
-      el.innerHTML = '';
+      if(threeWeekInstance){ threeWeekInstance.destroy(); threeWeekInstance=null; }
+      canvas.closest('.chart-wrap').style.display = 'none';
+      document.getElementById('threeWeekLegend').innerHTML = '';
       var oldEmpty = host.querySelector('.empty-state');
       if(!oldEmpty){
         var wrap = document.createElement('div');
-        wrap.innerHTML = emptyStateHTML('아직 최근 주차 기록이 없음','기록을 입력하면 주별 부위 구성이 이곳에 표시됨');
+        wrap.innerHTML = emptyStateHTML('아직 최근 주차 기록이 없음','기록을 입력하면 부위별 · 주차별 구성이 이곳에 표시됨');
         host.querySelector('.collapse-inner').appendChild(wrap.firstChild);
       }
       return;
     }
     var existingEmpty = host.querySelector('.empty-state'); if(existingEmpty) existingEmpty.remove();
+    canvas.closest('.chart-wrap').style.display = '';
 
-    // 최신 주차가 위로 오도록 역순 표시
-    var order = weekBodyPart3.labels.map(function(_,i){return i;}).reverse();
-    el.innerHTML = order.map(function(wi){
-      var wkLabel = weekBodyPart3.labels[wi];
-      var rowParts = PARTS_SEQ.map(function(p){ return [p, weekBodyPart3.data[p][wi]||0]; }).filter(function(e){ return e[1]>0; });
-      var total = rowParts.reduce(function(s,e){ return s+e[1]; },0);
-      if(total===0){
-        return '<div class="week-row"><div class="week-row-head"><span class="wname">'+wkLabel+'</span><span class="wtotal num">0kg</span></div>'+
-          '<div class="week-bar"></div></div>';
+    var ctx = canvas.getContext('2d');
+    var grid = cssVar('--grid') || '#e1e0d9';
+    var ink = cssVar('--ink-soft') || '#52514e';
+    var dark = isDarkNow();
+
+    // x축 = 지정된 부위 순서(10종), 스택 = 주차 — 이번 주가 맨 아래, 2주 전이 맨 위에 쌓이도록 구성
+    var wLen = weekBodyPart3.labels.length;
+    var slotNames = ['이번 주','전주','2주 전'];
+    var datasets = [];
+    for(var s=0; s<3; s++){
+      var idx = wLen-1-s;
+      if(idx<0) break;
+      datasets.push({
+        label: slotNames[s]+' ('+weekBodyPart3.labels[idx]+')',
+        data: WEEK3_PART_ORDER.map(function(p){ return (weekBodyPart3.data[p] && weekBodyPart3.data[p][idx]) || 0; }),
+        backgroundColor: week3Color(s),
+        stack:'wk',
+        borderRadius:3,
+        borderSkipped:false,
+        maxBarThickness:40,
+        datalabels:{ display:false }
+      });
+    }
+
+    if(threeWeekInstance){ threeWeekInstance.destroy(); }
+    threeWeekInstance = new Chart(ctx, {
+      type:'bar',
+      data:{ labels:WEEK3_PART_ORDER, datasets:datasets },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        layout:{ padding:{ top:8 } },
+        onHover:function(evt, elements, chart){
+          chart.canvas.style.cursor = elements.length ? 'pointer' : 'default';
+        },
+        onClick:function(evt, elements){
+          if(!elements || !elements.length) return;
+          var part = WEEK3_PART_ORDER[elements[0].index];
+          showWeekPartDetail(part);
+        },
+        plugins:{
+          legend:{ display:false },
+          tooltip:{
+            mode:'index', intersect:false,
+            backgroundColor: dark ? '#1a1a19' : '#0b0b0b',
+            padding:10, cornerRadius:8,
+            titleFont:{family:'Noto Sans KR', size:11.5},
+            bodyFont:{family:'Noto Sans KR', size:11.5},
+            filter:function(item){ return item.parsed.y>0; },
+            callbacks:{ label:function(c){ return c.dataset.label+': '+c.parsed.y.toLocaleString()+'kg'; } }
+          }
+        },
+        scales:{
+          x:{ stacked:true, grid:{display:false}, ticks:{ color:ink, font:{family:'Noto Sans KR', size:10.5} } },
+          y:{ stacked:true, grid:{color:grid, drawTicks:false}, border:{display:false},
+              ticks:{ color:ink, font:{family:'Noto Sans KR', size:10}, callback:function(v){ return (v/1000)+'k'; } } }
+        }
       }
-      var segs = rowParts.map(function(e){
-        var share = Math.round(e[1]/total*100);
-        var showIcon = share>=8;
-        return '<div class="week-seg" style="width:'+share+'%; background:'+partColor(e[0])+'" title="'+e[0]+' '+e[1].toLocaleString()+'kg ('+share+'%)">'+
-          (showIcon ? iconSvg(partIcon(e[0])) : '')+'</div>';
-      }).join('');
-      return '<div class="week-row"><div class="week-row-head"><span class="wname">'+wkLabel+'</span>'+
-        '<span class="wtotal num">'+total.toLocaleString()+'kg</span></div>'+
-        '<div class="week-bar">'+segs+'</div></div>';
-    }).join('');
+    });
+    renderThreeWeekLegend();
+  }
+  function renderThreeWeekLegend(){
+    var el = document.getElementById('threeWeekLegend');
+    if(!el || !_lastWeekBodyPart3) return;
+    var wLen = _lastWeekBodyPart3.labels.length;
+    var slotNames = ['이번 주','전주','2주 전'];
+    var chips = [];
+    for(var s=0; s<3; s++){
+      var idx = wLen-1-s;
+      if(idx<0) break;
+      chips.push('<span class="legend-chip"><span class="dot" style="background:'+week3Color(s)+'"></span>'+slotNames[s]+' ('+_lastWeekBodyPart3.labels[idx]+')</span>');
+    }
+    el.innerHTML = chips.join('');
+  }
+  function showWeekPartDetail(part){
+    var el = document.getElementById('weekPartDetail');
+    if(!el || !_lastWeekBodyPart3 || !_lastWeekBodyPart3.data[part]) return;
+    var wLen = _lastWeekBodyPart3.labels.length;
+    var rows = [];
+    for(var i=wLen-1; i>=0; i--){
+      rows.push({ label:_lastWeekBodyPart3.labels[i], v:_lastWeekBodyPart3.data[part][i]||0 });
+    }
+    var total = rows.reduce(function(s,r){ return s+r.v; },0);
+    var max = Math.max.apply(null, rows.map(function(r){ return r.v; })) || 1;
+    el.innerHTML =
+      '<div class="day-detail-head">'+
+        '<span><span class="ddate">'+part+'</span><span class="dtotal">최근 '+wLen+'주 합계 '+total.toLocaleString()+'kg</span></span>'+
+        '<button type="button" class="day-detail-close" id="weekPartDetailClose" aria-label="닫기">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'+
+        '</button>'+
+      '</div>'+
+      '<div class="hrow-list">'+rows.map(function(r){
+        var share = Math.round(r.v/max*100);
+        return '<div class="hrow"><span class="hrow-name" style="width:56px;">'+r.label+'</span>'+
+          '<span class="track"><span class="fill" style="width:'+share+'%; background:'+partColor(part)+'"></span></span>'+
+          '<span class="val num">'+r.v.toLocaleString()+'kg</span></div>';
+      }).join('')+'</div>';
+    el.hidden = false;
+    document.getElementById('weekPartDetailClose').addEventListener('click', hideWeekPartDetail);
+    el.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+  function hideWeekPartDetail(){
+    var el = document.getElementById('weekPartDetail');
+    if(el){ el.hidden = true; el.innerHTML = ''; }
   }
 
-  /* ---------------- 최근 7일 운동 기록 (총 볼륨 바 + 하단 부위 아이콘 스트립) ---------------- */
+  /* ---------------- 최근 7일 운동 기록 (일별 x 부위 스택 막대 + 구간 내 라벨, 클릭 시 상세) ---------------- */
+  var dailyInstance = null;
   function dailyPartMatrix(dates){
     var m = {}; // date -> part -> volume
     dates.forEach(function(d){ m[d] = {}; });
@@ -1693,20 +1743,16 @@
     });
     return m;
   }
-  var dailySortDesc = true; // true = 최신순(오늘이 왼쪽), false = 과거순(오늘이 오른쪽)
-  var _lastDailyDates = null, _lastDayTotal = null;
   function renderDailyChart(){
-    var barsEl = document.getElementById('dailyStripBars');
-    var labelsEl = document.getElementById('dailyStripLabels');
-    if(!barsEl || !labelsEl) return;
+    var canvas = document.getElementById('dailyChart');
+    if(!canvas || !window.Chart) return;
     var host = document.getElementById('cardDaily');
-    var DAILY_DATES = computeDailyDates(); // 오늘 기준 최근 7개 달력일, 최신일이 맨 앞
+    var DAILY_DATES = computeDailyDates(); // 오늘 기준 최근 7개 달력일, 최신일이 왼쪽
     var matrix = dailyPartMatrix(DAILY_DATES);
 
     var dayTotal = DAILY_DATES.map(function(d){
       return PARTS.reduce(function(s,p){ return s+(matrix[d][p]||0); },0);
     });
-    _lastDailyDates = DAILY_DATES; _lastDayTotal = dayTotal;
     var totalAll = dayTotal.reduce(function(a,b){return a+b;},0);
     var rangeLabel = DAILY_DATES[DAILY_DATES.length-1].replace(/\(.+\)/,'')+' – '+DAILY_DATES[0].replace(/\(.+\)/,'');
     document.getElementById('dailySummary').textContent =
@@ -1715,8 +1761,9 @@
     hideDayDetail();
 
     if(totalAll===0){
-      barsEl.innerHTML = ''; labelsEl.innerHTML = '';
-      document.querySelector('#cardDaily .daily-head-row').style.display = 'none';
+      if(dailyInstance){ dailyInstance.destroy(); dailyInstance=null; }
+      canvas.closest('.chart-wrap').style.display = 'none';
+      document.getElementById('dailyLegend').innerHTML = '';
       var oldEmpty = host.querySelector('.empty-state');
       if(!oldEmpty){
         var wrap = document.createElement('div');
@@ -1726,58 +1773,81 @@
       return;
     }
     var existingEmpty = host.querySelector('.empty-state'); if(existingEmpty) existingEmpty.remove();
-    document.querySelector('#cardDaily .daily-head-row').style.display = 'flex';
+    canvas.closest('.chart-wrap').style.display = '';
 
-    renderDailyStrip();
-  }
-  function renderDailyStrip(){
-    var barsEl = document.getElementById('dailyStripBars');
-    var labelsEl = document.getElementById('dailyStripLabels');
-    if(!barsEl || !_lastDailyDates) return;
-    var DAILY_DATES = _lastDailyDates, dayTotal = _lastDayTotal;
-    var matrix = dailyPartMatrix(DAILY_DATES);
-    var idxOrder = DAILY_DATES.map(function(_,i){return i;});
-    if(!dailySortDesc) idxOrder = idxOrder.reverse(); // 기본(원본)이 최신→과거이므로, 과거순은 뒤집음
-    var max = Math.max.apply(null, dayTotal) || 1;
-    var accent2 = cssVar('--accent-2') || '#1baf7a';
+    var ctx = canvas.getContext('2d');
+    var grid = cssVar('--grid') || '#e1e0d9';
+    var ink = cssVar('--ink-soft') || '#52514e';
+    var dark = isDarkNow();
 
-    barsEl.innerHTML = idxOrder.map(function(idx){
-      var d = DAILY_DATES[idx];
-      var total = dayTotal[idx];
-      var h = total ? Math.max(10, Math.round(total/max*100)) : 4;
-      var parts = PARTS.filter(function(p){ return (matrix[d][p]||0)>0; });
-      var icons = parts.map(function(p){
-        return '<span class="strip-icon" style="background:'+partColor(p)+'" title="'+p+'">'+iconSvg(partIcon(p))+'</span>';
-      }).join('');
-      return '<button type="button" class="strip-col" data-idx="'+idx+'">'+
-        '<div class="strip-icons">'+icons+'</div>'+
-        '<div class="strip-bar" style="height:'+h+'%; background:'+(total?accent2:'var(--border)')+'"></div>'+
-        '</button>';
-    }).join('');
-    labelsEl.innerHTML = idxOrder.map(function(idx){
-      return '<span>'+DAILY_DATES[idx].replace(/\(.+\)/,'')+'</span>';
-    }).join('');
-
-    barsEl.querySelectorAll('.strip-col').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var idx = parseInt(btn.getAttribute('data-idx'),10);
-        if(dayTotal[idx]===0){ showToast('해당 날짜에는 기록이 없음'); return; }
-        showDayDetail(DAILY_DATES[idx]);
-      });
+    var datasets = PARTS.map(function(p){
+      return {
+        label:p,
+        data:DAILY_DATES.map(function(d){ return matrix[d][p]||0; }),
+        backgroundColor:partColor(p),
+        stack:'day',
+        borderRadius:3,
+        borderSkipped:false,
+        maxBarThickness:44,
+        datalabels:{
+          display:function(c){ return c.dataset.data[c.dataIndex] > 1600; },
+          color:'#fff',
+          textStrokeColor:'rgba(0,0,0,.32)',
+          textStrokeWidth:2,
+          font:{family:'Noto Sans KR', size:8.5, weight:'700'},
+          formatter:function(v, ctx){ return [ctx.dataset.label, v.toLocaleString()]; },
+          textAlign:'center'
+        }
+      };
     });
+
+    if(dailyInstance){ dailyInstance.destroy(); }
+    dailyInstance = new Chart(ctx, {
+      type:'bar',
+      data:{ labels:DAILY_DATES, datasets:datasets },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        onHover:function(evt, elements, chart){
+          chart.canvas.style.cursor = elements.length ? 'pointer' : 'default';
+        },
+        onClick:function(evt, elements){
+          if(!elements || !elements.length) return;
+          var idx = elements[0].index;
+          if(dayTotal[idx]===0){ showToast('해당 날짜에는 기록이 없음'); return; }
+          showDayDetail(DAILY_DATES[idx]);
+        },
+        plugins:{
+          legend:{ display:false },
+          tooltip:{
+            mode:'index', intersect:false,
+            backgroundColor: dark ? '#1a1a19' : '#0b0b0b',
+            padding:10, cornerRadius:8,
+            titleFont:{family:'Noto Sans KR', size:11.5},
+            bodyFont:{family:'Noto Sans KR', size:11.5},
+            filter:function(item){ return item.parsed.y>0; },
+            callbacks:{ label:function(c){ return c.dataset.label+': '+c.parsed.y.toLocaleString()+'kg'; } }
+          }
+        },
+        scales:{
+          x:{ stacked:true, grid:{display:false}, ticks:{ color:ink, font:{family:'Noto Sans KR', size:10.5},
+              callback:function(value){
+                var idx = value;
+                return dayTotal[idx]===0 ? [DAILY_DATES[idx],'(기록 없음)'] : DAILY_DATES[idx];
+              } } },
+          y:{ stacked:true, grid:{color:grid, drawTicks:false}, border:{display:false},
+              ticks:{ color:ink, font:{family:'Noto Sans KR', size:10}, callback:function(v){ return (v/1000)+'k'; } } }
+        }
+      }
+    });
+    renderDailyLegend();
   }
-  function toggleDailySort(){
-    dailySortDesc = !dailySortDesc;
-    var lbl = document.getElementById('dailySortLabel');
-    if(lbl) lbl.textContent = dailySortDesc ? '최신순' : '과거순';
-    var ic = document.getElementById('dailySortIcon');
-    if(ic) ic.style.transform = dailySortDesc ? '' : 'scaleX(-1)';
-    renderDailyStrip();
+  function renderDailyLegend(){
+    var el = document.getElementById('dailyLegend');
+    if(!el) return;
+    el.innerHTML = PARTS.map(function(p){
+      return '<span class="legend-chip"><span class="dot" style="background:'+partColor(p)+'"></span>'+p+'</span>';
+    }).join('');
   }
-  (function(){
-    var btn = document.getElementById('dailySortToggle');
-    if(btn) btn.addEventListener('click', toggleDailySort);
-  })();
 
   function showDayDetail(dateStr){
     var el = document.getElementById('dayDetail');
@@ -2061,7 +2131,7 @@
   function renderAll(){
     // 각 렌더 단계는 독립적으로 실행함 — 특정 단계(예: 차트 라이브러리 로딩 실패)에서
     // 오류가 나도 나머지 화면(이력/최근기록/가져오기 상태 등)까지 함께 멈추지 않도록 함.
-    [renderPartsLegendRow, renderStats, renderRank, renderWeeklyStatusChart, renderThreeWeekChart, renderDailyChart,
+    [renderStats, renderRank, renderWeeklyStatusChart, renderThreeWeekChart, renderDailyChart,
      renderRecent, renderHistory, renderTodayList, renderImportScreen].forEach(function(fn){
       try{ fn(); }catch(e){ console.error('[renderAll] '+(fn.name||'render')+' 실패', e); }
     });
