@@ -219,6 +219,8 @@
   .chart-card .section-head{margin-bottom:2px;}
   .chart-wrap{position:relative; height:190px; margin-top:10px;}
   @media (min-width:560px){ .chart-wrap{height:220px;} }
+  .chart-wrap.scroll-chart{overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch;}
+  .chart-wrap.scroll-chart .chart-scroll-inner{height:100%; position:relative;}
 
   .rank-card{padding:16px 16px 14px; margin-bottom:16px;}
   .rank-row{display:flex; align-items:center; gap:10px; padding:7px 0;}
@@ -724,7 +726,7 @@
             <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="collapse-body"><div class="collapse-inner">
-            <div class="chart-wrap"><canvas id="weeklyStatusChart"></canvas></div>
+            <div class="chart-wrap scroll-chart" id="trendChartWrap"><div class="chart-scroll-inner" id="trendChartInner"><canvas id="weeklyStatusChart"></canvas></div></div>
           </div></div>
         </div>
 
@@ -1183,6 +1185,8 @@
   function iconSvg(iconId, extra){ return '<svg class="icon"'+(extra||'')+'><use href="#'+iconId+'"></use></svg>'; }
   // 3주간 운동 기록 가로축 표기 순서 (지정된 순서, 목록에 없던 승모근은 맨 뒤에 추가)
   var WEEK3_PART_ORDER = ["광배근","대흉근","삼각근","다리","둔근","복직근","상완삼두근","상완이두근","전완근","승모근"];
+  // 3주간 운동 기록 차트 x축 표기용 축약 라벨(내부 로직은 항상 WEEK3_PART_ORDER의 전체 명칭으로 처리, 이 배열은 표시 전용)
+  var WEEK3_PART_ORDER_SHORT = ["광배","대흉","삼각","다리","둔근","복직","삼두","이두","전완","승모"];
 
   function vol(w, reps){ return w * reps.reduce(function(a,b){return a+b;},0); }
 
@@ -1444,14 +1448,27 @@
 
   /* ---------------- 주간 볼륨 현황 (막대: 주간 볼륨 · 라인: 전주 대비 변화율, 이중축 미표시) ---------------- */
   var statusInstance = null;
+  // 3주간 운동 기록 차트의 막대 폭(카드 너비 ÷ 부위 10종)을 기준으로 주간 볼륨 현황 차트의 막대 폭을 맞춤
+  function computeTrendChartWidth(weekCount){
+    var wrap = document.getElementById('trendChartWrap');
+    var containerW = wrap ? wrap.clientWidth : 0;
+    var threeWeekWrap = document.getElementById('threeWeekChart');
+    threeWeekWrap = threeWeekWrap ? threeWeekWrap.closest('.chart-wrap') : null;
+    var refW = (threeWeekWrap && threeWeekWrap.clientWidth) ? threeWeekWrap.clientWidth : containerW;
+    var perBar = refW>0 ? (refW / WEEK3_PART_ORDER.length) : 34;
+    var needed = Math.ceil(perBar * weekCount);
+    return Math.max(containerW, needed);
+  }
   function renderWeeklyStatusChart(){
     var canvas = document.getElementById('weeklyStatusChart');
     if(!canvas || !window.Chart) return;
     var host = document.getElementById('cardTrend');
+    var trendInner = document.getElementById('trendChartInner');
     var weeklyTotals = computeWeeklyTotals();
 
     if(weeklyTotals.length===0){
       if(statusInstance){ statusInstance.destroy(); statusInstance=null; }
+      if(trendInner) trendInner.style.width = '';
       canvas.closest('.chart-wrap').style.display = 'none';
       var oldLegend = host.querySelector('.status-legend'); if(oldLegend) oldLegend.remove();
       var oldEmpty = host.querySelector('.empty-state');
@@ -1491,6 +1508,8 @@
     document.getElementById('statusSubtitle').textContent =
       wnMin+'주차 – '+wnMax+'주차 · 주간 볼륨과 전주 대비 변화율'+(hasPct ? '' : ' — 2주 이상 쌓이면 변화율 라인이 표시됨');
 
+    if(trendInner) trendInner.style.width = computeTrendChartWidth(desc.length)+'px';
+
     var datasets = [
       {
         type:'bar',
@@ -1499,7 +1518,7 @@
         backgroundColor:accent2,
         borderRadius:4,
         borderSkipped:false,
-        maxBarThickness:34,
+        maxBarThickness:40,
         yAxisID:'y',
         datalabels:{
           display:true,
@@ -1559,7 +1578,7 @@
           }
         },
         scales:{
-          x:{ grid:{display:false}, ticks:{ color:muted, font:{family:'Noto Sans KR', size:9.5}, maxRotation:0, autoSkip:true, maxTicksLimit:19 } },
+          x:{ grid:{display:false}, ticks:{ color:muted, font:{family:'Noto Sans KR', size:9.5}, maxRotation:0, minRotation:0, autoSkip:false } },
           y:{ grid:{color:grid, drawTicks:false}, border:{display:false},
               ticks:{ color:ink, font:{family:'Noto Sans KR', size:10}, callback:function(v){ return (v/1000)+'k'; } } },
           y1:{ display:false, position:'right' }
@@ -1654,7 +1673,7 @@
     if(threeWeekInstance){ threeWeekInstance.destroy(); }
     threeWeekInstance = new Chart(ctx, {
       type:'bar',
-      data:{ labels:WEEK3_PART_ORDER, datasets:datasets },
+      data:{ labels:WEEK3_PART_ORDER_SHORT, datasets:datasets },
       options:{
         responsive:true, maintainAspectRatio:false,
         layout:{ padding:{ top:8 } },
@@ -1675,11 +1694,14 @@
             titleFont:{family:'Noto Sans KR', size:11.5},
             bodyFont:{family:'Noto Sans KR', size:11.5},
             filter:function(item){ return item.parsed.y>0; },
-            callbacks:{ label:function(c){ return c.dataset.label+': '+c.parsed.y.toLocaleString()+'kg'; } }
+            callbacks:{
+              title:function(items){ return items.length ? WEEK3_PART_ORDER[items[0].dataIndex] : ''; },
+              label:function(c){ return c.dataset.label+': '+c.parsed.y.toLocaleString()+'kg'; }
+            }
           }
         },
         scales:{
-          x:{ stacked:true, grid:{display:false}, ticks:{ color:ink, font:{family:'Noto Sans KR', size:10.5} } },
+          x:{ stacked:true, grid:{display:false}, ticks:{ color:ink, font:{family:'Noto Sans KR', size:10.5}, maxRotation:0, minRotation:0 } },
           y:{ stacked:true, grid:{color:grid, drawTicks:false}, border:{display:false},
               ticks:{ color:ink, font:{family:'Noto Sans KR', size:10}, callback:function(v){ return (v/1000)+'k'; } } }
         }
@@ -1795,7 +1817,7 @@
           textStrokeColor:'rgba(0,0,0,.32)',
           textStrokeWidth:2,
           font:{family:'Noto Sans KR', size:8.5, weight:'700'},
-          formatter:function(v, ctx){ return [ctx.dataset.label, v.toLocaleString()]; },
+          formatter:function(v, ctx){ return ctx.dataset.label; },
           textAlign:'center'
         }
       };
@@ -1829,7 +1851,7 @@
           }
         },
         scales:{
-          x:{ stacked:true, grid:{display:false}, ticks:{ color:ink, font:{family:'Noto Sans KR', size:10.5},
+          x:{ stacked:true, grid:{display:false}, ticks:{ color:ink, font:{family:'Noto Sans KR', size:10.5}, maxRotation:0, minRotation:0,
               callback:function(value){
                 var idx = value;
                 return dayTotal[idx]===0 ? [DAILY_DATES[idx],'(기록 없음)'] : DAILY_DATES[idx];
