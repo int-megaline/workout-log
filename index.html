@@ -1422,23 +1422,23 @@
       return;
     }
     var total = entries.reduce(function(s,e){ return s+e[1]; },0);
+    var maxVal = entries[0][1]; // 내림차순 정렬 — 첫 항목이 최댓값
     var segs = entries.map(function(e){
       var share = Math.round(e[1]/total*100);
-      var showIcon = share>=8;
-      return '<div class="week-seg" style="width:'+share+'%; background:'+partColor(e[0])+'" title="'+e[0]+' '+e[1].toLocaleString()+'kg ('+share+'%)">'+
-        (showIcon ? iconSvg(partIcon(e[0])) : '')+'</div>';
+      return '<div class="week-seg" style="width:'+share+'%; background:'+partColor(e[0])+'" title="'+e[0]+' '+e[1].toLocaleString()+'kg ('+share+'%)"></div>';
     }).join('');
     barWrap.innerHTML =
       '<div class="week-row"><div class="week-row-head"><span class="wname">전체 기간 누적</span>'+
       '<span class="wtotal num">'+total.toLocaleString()+'kg</span></div>'+
       '<div class="week-bar">'+segs+'</div></div>';
 
+    // 최댓값 부위가 전폭(100%)이 되도록 최댓값 기준 상대 비율로 막대를 표기함(라벨의 %는 전체 대비 비중으로 별도 표기)
     listEl.innerHTML = entries.map(function(e){
       var share = Math.round(e[1]/total*100);
+      var relWidth = Math.round(e[1]/maxVal*100);
       return '<div class="hrow">'+
-        '<span class="ic" style="background:'+partColor(e[0])+'">'+iconSvg(partIcon(e[0]))+'</span>'+
         '<span class="hrow-name">'+e[0]+'</span>'+
-        '<span class="track"><span class="fill" style="width:'+share+'%; background:'+partColor(e[0])+'"></span></span>'+
+        '<span class="track"><span class="fill" style="width:'+relWidth+'%; background:'+partColor(e[0])+'"></span></span>'+
         '<span class="val num">'+share+'% · '+e[1].toLocaleString()+'kg</span>'+
         '</div>';
     }).join('');
