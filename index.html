@@ -418,10 +418,17 @@
     flex:none; width:24px; height:24px; border-radius:7px; background:var(--surface-2);
     display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--muted); font-weight:600;
   }
-  .set-row input{
-    flex:1; padding:9px 10px; border-radius:9px; border:1px solid var(--border-strong);
+  .set-fields{display:flex; align-items:center; gap:6px; flex:1; min-width:0;}
+  .set-w-wrap, .set-reps-wrap{position:relative; flex:1; min-width:0;}
+  .set-fields input{
+    width:100%; padding:9px 30px 9px 10px; border-radius:9px; border:1px solid var(--border-strong);
     background:var(--surface); color:var(--ink); font-size:14px; font-family:inherit; text-align:center;
   }
+  .set-fields .set-unit{
+    position:absolute; right:9px; top:50%; transform:translateY(-50%);
+    font-size:10.5px; color:var(--muted); pointer-events:none;
+  }
+  .set-x{flex:none; font-size:12px; color:var(--muted); font-weight:600;}
   .set-remove{
     flex:none; width:26px; height:26px; border-radius:8px; border:1px solid var(--border);
     background:var(--surface); color:var(--muted); display:flex; align-items:center; justify-content:center; cursor:pointer;
@@ -793,25 +800,17 @@
           </div>
 
           <div class="field">
-            <label for="fWeight">중량</label>
-            <div class="weight-input">
-              <input type="number" class="input" id="fWeight" inputmode="decimal" placeholder="0" min="0" step="0.5" value="20">
-              <span class="unit">kg</span>
-            </div>
-            <p class="hint">머신/케이블 등 스택 무게 기준. 맨몸 운동은 체감 강도(레벨) 값을 입력.</p>
-          </div>
-
-          <div class="field">
-            <label>세트별 반복수(회)</label>
+            <label>세트별 중량 × 반복수</label>
             <div class="set-list" id="setList"></div>
             <button type="button" class="set-add" id="addSet">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
               세트 추가
             </button>
+            <p class="hint">머신/케이블 등 스택 무게 기준. 맨몸 운동은 체감 강도(레벨) 값을 입력. 세트마다 중량을 다르게 입력 가능(예: 웜업·드롭세트).</p>
           </div>
 
           <div class="volume-preview">
-            <span class="l">자동 계산 볼륨 (중량 × 반복 합)</span>
+            <span class="l">자동 계산 볼륨 (세트별 중량 × 반복의 합)</span>
             <span class="v num" id="volPreview">0 kg</span>
           </div>
 
@@ -822,7 +821,8 @@
           <div class="card" style="padding:16px; margin-bottom:16px;">
             <h2 style="font-size:13.5px; margin-bottom:10px;">입력 가이드</h2>
             <p class="sub" style="line-height:1.7;">
-              · 볼륨 = 중량(kg) × 전체 세트 반복수의 합<br>
+              · 볼륨 = 세트별(중량(kg) × 반복수)의 합<br>
+              · 세트마다 중량을 따로 입력 가능(웜업·드롭세트 등)<br>
               · 세트는 최소 1개, 최대 10개까지 추가 가능<br>
               · 부위–운동 매핑은 기존 시트의 드롭다운 목록을 그대로 반영함
             </p>
@@ -1187,7 +1187,8 @@
   // 3주간 운동 기록 차트 x축 표기용 축약 라벨(내부 로직은 항상 WEEK3_PART_ORDER의 전체 명칭으로 처리, 이 배열은 표시 전용)
   var WEEK3_PART_ORDER_SHORT = ["광배","대흉","삼각","다리","둔근","복직","삼두","이두","전완","승모"];
 
-  function vol(w, reps){ return w * reps.reduce(function(a,b){return a+b;},0); }
+  // sets: [{w, reps}, ...] — 세트별(중량 × 반복수)의 합
+  function vol(sets){ return sets.reduce(function(s,x){ return s + x.w*x.reps; },0); }
 
   var WEEKDAY_KR = ['일','월','화','수','목','금','토'];
   function fmtDate(d){ return (d.getMonth()+1)+'.'+d.getDate()+'('+WEEKDAY_KR[d.getDay()]+')'; }
@@ -1217,7 +1218,9 @@
         var d = doc.data();
         var dt = new Date(d.date+'T00:00:00');
         var createdMs = (d.createdAt && typeof d.createdAt.toMillis === 'function') ? d.createdAt.toMillis() : Infinity; // 서버 확정 전(로컬 저장 직후)엔 가장 최근으로 취급
-        return { id:doc.id, rawDate:dt, wn:isoWeek(dt), date:fmtDate(dt), part:d.part, ex:d.ex, w:d.w, reps:d.reps, v:d.v, _createdMs:createdMs };
+        // sets: [{w, reps}, ...] — 신규 저장 형식. 과거 형식(단일 w + reps 배열)은 세트마다 동일 중량으로 변환해 통일함.
+        var sets = Array.isArray(d.sets) ? d.sets : (d.reps||[]).map(function(r){ return { w:d.w||0, reps:r }; });
+        return { id:doc.id, rawDate:dt, wn:isoWeek(dt), date:fmtDate(dt), part:d.part, ex:d.ex, sets:sets, v:d.v, _createdMs:createdMs };
       });
       records.sort(function(a,b){
         if(a.rawDate.getTime() !== b.rawDate.getTime()) return b.rawDate - a.rawDate;
@@ -1239,7 +1242,7 @@
     if(!currentUser){ showToast('로그인 후 저장 가능함'); return Promise.reject(new Error('not signed in')); }
     return db.collection('users').doc(currentUser.uid).collection('records').add({
       date: rec.date, // yyyy-mm-dd
-      part: rec.part, ex: rec.ex, w: rec.w, reps: rec.reps, v: rec.v,
+      part: rec.part, ex: rec.ex, sets: rec.sets, v: rec.v,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
   }
@@ -1884,7 +1887,17 @@
     if(el){ el.hidden = true; el.innerHTML = ''; }
   }
   /* ---------------- Recent list (dashboard) ---------------- */
-  function fmtSets(reps){ return reps.length+'세트 · '+reps.join('·')+'회'; }
+  // sets: [{w, reps}, ...] — 세트 중량이 전부 같으면 기존처럼 간결하게, 다르면 세트별로 풀어서 표기함
+  function fmtSets(sets){
+    var sameW = sets.every(function(s){ return s.w===sets[0].w; });
+    if(sameW){
+      return sets[0].w+'kg · '+sets.length+'세트 · '+sets.map(function(s){ return s.reps; }).join('·')+'회';
+    }
+    return sets.map(function(s){ return s.w+'×'+s.reps; }).join(' · ')+'kg';
+  }
+  function fmtSetsDetail(sets){
+    return sets.map(function(s,i){ return (i+1)+'세트 '+s.w+'kg×'+s.reps+'회'; }).join(', ');
+  }
 
   function recordCardHTML(r, opts){
     opts = opts || {};
@@ -1892,12 +1905,12 @@
       '<div class="rec-date">'+r.date.replace(/\(.+\)/,'')+'<b>'+r.date.match(/\((.)\)/)[1]+'</b></div>'+
       '<div class="rec-main">'+
         '<div class="rec-top"><span class="badge" style="background:'+partColor(r.part)+'22; color:'+partColor(r.part)+'">'+r.part+'</span><span class="rec-name">'+r.ex+'</span></div>'+
-        '<div class="rec-sets">'+r.w+'kg · '+fmtSets(r.reps)+'</div>'+
+        '<div class="rec-sets">'+fmtSets(r.sets)+'</div>'+
       '</div>'+
       '<div class="rec-vol"><b class="num">'+r.v.toLocaleString()+'</b><span>kg 볼륨</span></div>'+
       '<button class="info-btn" data-id="'+r.id+'">'+
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/></svg>'+
-        '<span class="tooltip">WN'+r.wn+' · '+r.date+'<br>세트별 반복: '+r.reps.join(', ')+'회<br>산출: '+r.w+'kg × '+r.reps.reduce(function(a,b){return a+b;},0)+'회 = '+r.v.toLocaleString()+'kg</span>'+
+        '<span class="tooltip">WN'+r.wn+' · '+r.date+'<br>'+fmtSetsDetail(r.sets)+'<br>산출: 세트별 중량×반복의 합 = '+r.v.toLocaleString()+'kg</span>'+
       '</button>'+
       (opts.del ? '<button class="info-btn del-btn" data-id="'+r.id+'" aria-label="기록 삭제" title="기록 삭제">'+
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>'+
@@ -2002,7 +2015,6 @@
   var partSelect = document.getElementById('fPart');
   var exSelect = document.getElementById('fExercise');
   var setList = document.getElementById('setList');
-  var weightInput = document.getElementById('fWeight');
 
   partSelect.innerHTML = PARTS.map(function(p){ return '<option value="'+p+'">'+p+'</option>'; }).join('');
   function refreshExercises(){
@@ -2015,9 +2027,17 @@
   var today = new Date();
   document.getElementById('fDate').value = today.toISOString().slice(0,10);
 
-  function setRowHTML(i, val){
+  var DEFAULT_SETS = [[20,12],[20,10],[20,10]]; // [중량, 반복수] 기본값(세트 3개)
+
+  function setRowHTML(i, w, reps){
+    w = (w===undefined || w===null) ? '' : w;
+    reps = (reps===undefined || reps===null) ? '' : reps;
     return '<div class="set-row"><span class="set-idx">'+i+'</span>'+
-      '<input type="number" inputmode="numeric" class="set-input" value="'+(val||'')+'" placeholder="반복수">'+
+      '<div class="set-fields">'+
+        '<div class="set-w-wrap"><input type="number" inputmode="decimal" step="0.5" min="0" class="set-w" value="'+w+'" placeholder="중량"><span class="set-unit">kg</span></div>'+
+        '<span class="set-x">×</span>'+
+        '<div class="set-reps-wrap"><input type="number" inputmode="numeric" min="0" class="set-reps" value="'+reps+'" placeholder="반복"><span class="set-unit">회</span></div>'+
+      '</div>'+
       '<button type="button" class="set-remove" aria-label="세트 삭제">'+
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'+
       '</button></div>';
@@ -2025,45 +2045,51 @@
   function renumberSets(){
     setList.querySelectorAll('.set-row').forEach(function(row,i){ row.querySelector('.set-idx').textContent = i+1; });
   }
-  function addSetRow(val){
+  function addSetRow(w, reps){
     var rows = setList.querySelectorAll('.set-row').length;
     if(rows>=10) return;
     var wrap = document.createElement('div');
-    wrap.innerHTML = setRowHTML(rows+1, val);
+    wrap.innerHTML = setRowHTML(rows+1, w, reps);
     var row = wrap.firstChild;
     setList.appendChild(row);
     row.querySelector('.set-remove').addEventListener('click', function(){
       if(setList.querySelectorAll('.set-row').length<=1) return;
       row.remove(); renumberSets(); updateVolumePreview();
     });
-    row.querySelector('.set-input').addEventListener('input', updateVolumePreview);
+    row.querySelector('.set-w').addEventListener('input', updateVolumePreview);
+    row.querySelector('.set-reps').addEventListener('input', updateVolumePreview);
   }
-  document.getElementById('addSet').addEventListener('click', function(){ addSetRow(''); });
-  [12,10,10].forEach(function(v){ addSetRow(v); });
+  document.getElementById('addSet').addEventListener('click', function(){
+    // 직전 세트와 같은 중량을 이어받아 채워줌(대부분 같은 중량을 반복 입력하는 경우가 많아 편의상 적용, 필요시 수정 가능)
+    var rows = setList.querySelectorAll('.set-row');
+    var lastRow = rows.length ? rows[rows.length-1] : null;
+    var lastW = lastRow ? parseFloat(lastRow.querySelector('.set-w').value) : NaN;
+    addSetRow(isNaN(lastW) ? 20 : lastW, '');
+  });
+  DEFAULT_SETS.forEach(function(pair){ addSetRow(pair[0], pair[1]); });
 
-  function currentReps(){
-    return Array.prototype.slice.call(setList.querySelectorAll('.set-input'))
-      .map(function(i){ return parseFloat(i.value)||0; })
-      .filter(function(v){ return v>0; });
+  function currentSets(){
+    return Array.prototype.slice.call(setList.querySelectorAll('.set-row')).map(function(row){
+      return {
+        w: parseFloat(row.querySelector('.set-w').value)||0,
+        reps: parseFloat(row.querySelector('.set-reps').value)||0
+      };
+    }).filter(function(s){ return s.reps>0; });
   }
   function updateVolumePreview(){
-    var w = parseFloat(weightInput.value)||0;
-    var reps = currentReps();
-    var v = w * reps.reduce(function(a,b){return a+b;},0);
+    var v = vol(currentSets());
     document.getElementById('volPreview').textContent = v.toLocaleString()+' kg';
   }
-  weightInput.addEventListener('input', updateVolumePreview);
   updateVolumePreview();
 
   document.getElementById('logForm').addEventListener('submit', function(ev){
     ev.preventDefault();
-    var reps = currentReps();
-    if(reps.length===0){ showToast('세트별 반복수를 1개 이상 입력'); return; }
+    var sets = currentSets();
+    if(sets.length===0){ showToast('세트별 중량과 반복수를 1개 이상 입력'); return; }
     var dateVal = document.getElementById('fDate').value; // yyyy-mm-dd
     if(!dateVal){ showToast('날짜를 선택할 것'); return; }
-    var w = parseFloat(weightInput.value)||0;
-    var rec = { date:dateVal, part:partSelect.value, ex:exSelect.value, w:w, reps:reps };
-    rec.v = vol(rec.w, rec.reps);
+    var rec = { date:dateVal, part:partSelect.value, ex:exSelect.value, sets:sets };
+    rec.v = vol(rec.sets);
     var submitBtn = this.querySelector('.submit-btn');
     submitBtn.disabled = true; submitBtn.textContent = '저장 중…';
     var formEl = this;
@@ -2072,7 +2098,7 @@
       formEl.reset();
       document.getElementById('fDate').value = today.toISOString().slice(0,10);
       setList.innerHTML='';
-      [12,10,10].forEach(function(v){ addSetRow(v); });
+      DEFAULT_SETS.forEach(function(pair){ addSetRow(pair[0], pair[1]); });
       updateVolumePreview();
     }).catch(function(err){
       showToast('저장 실패: '+err.message);
