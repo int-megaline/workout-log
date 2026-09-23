@@ -684,9 +684,9 @@
             <span class="delta"><span style="color:var(--muted); font-weight:500;" id="statTopPartDetail">이번 주 기록 없음</span></span>
           </div>
           <div class="card stat">
-            <span class="stat-label">누적 총 볼륨</span>
-            <span class="stat-value num" id="statTotalVolume">0 <small>kg</small></span>
-            <span class="delta"><span style="color:var(--muted); font-weight:500;" id="statTotalLabel">기록 없음</span></span>
+            <span class="stat-label">최저 부위</span>
+            <span class="stat-value" id="statLowPart">–</span>
+            <span class="delta"><span style="color:var(--muted); font-weight:500;" id="statLowPartDetail">이번 주 기록 없음</span></span>
           </div>
         </div>
 
@@ -2129,10 +2129,9 @@
   function renderStats(){
     var thisWeek = isoWeek(new Date());
     var lastWeek = thisWeek - 1;
-    var thisWeekTotal = 0, lastWeekTotal = 0, totalAll = 0;
+    var thisWeekTotal = 0, lastWeekTotal = 0;
     var daysSet = {}, partThisWeek = {};
     records.forEach(function(r){
-      totalAll += r.v;
       if(r.wn===thisWeek){
         thisWeekTotal += r.v;
         daysSet[r.date] = true;
@@ -2161,8 +2160,16 @@
       document.getElementById('statTopPart').textContent = '–';
       document.getElementById('statTopPartDetail').textContent = '이번 주 기록 없음';
     }
-    document.getElementById('statTotalVolume').innerHTML = totalAll.toLocaleString()+' <small>kg</small>';
-    document.getElementById('statTotalLabel').textContent = records.length>0 ? (thisWeek+'주차 기준 누적') : '기록 없음';
+    // 최저 부위: 최다 부위와 동일한 기준(이번 주 실제로 수행한 부위 중)으로 볼륨이 가장 낮은 부위
+    var lowPart = Object.keys(partThisWeek).sort(function(a,b){ return partThisWeek[a]-partThisWeek[b]; })[0];
+    if(lowPart){
+      document.getElementById('statLowPart').textContent = lowPart;
+      var pct3 = thisWeekTotal>0 ? Math.round(partThisWeek[lowPart]/thisWeekTotal*100) : 0;
+      document.getElementById('statLowPartDetail').textContent = '비중 '+pct3+'% · '+partThisWeek[lowPart].toLocaleString()+'kg';
+    } else {
+      document.getElementById('statLowPart').textContent = '–';
+      document.getElementById('statLowPartDetail').textContent = '이번 주 기록 없음';
+    }
   }
 
   function renderAll(){
