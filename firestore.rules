@@ -1,7 +1,7 @@
 rules_version = '2';
 
 // 운동 일지 — Firestore 보안 규칙
-// 구조: users/{uid}/records/{recordId}
+// 구조: users/{uid}/records/{recordId}, users/{uid}/meta/{docId}(설정 탭의 부위·종목 커스텀 설정 등)
 // 원칙: 로그인한 본인(uid가 자신과 일치하는 경우)만 자신의 데이터를 읽고 쓸 수 있음.
 //       다른 사용자의 데이터는 절대 조회/수정 불가.
 
@@ -9,6 +9,10 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     match /users/{uid}/records/{recordId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{uid}/meta/{docId} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
 

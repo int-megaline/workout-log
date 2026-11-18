@@ -434,13 +434,14 @@
     background:var(--surface); color:var(--muted); display:flex; align-items:center; justify-content:center; cursor:pointer;
   }
   .set-remove svg{width:12px; height:12px;}
-  .set-add{
-    margin-top:9px; display:flex; align-items:center; gap:6px;
+  .set-actions{display:flex; gap:8px; margin-top:9px;}
+  .set-add, .set-copy{
+    display:flex; align-items:center; gap:6px;
     padding:9px 12px; border-radius:9px; border:1px dashed var(--border-strong);
-    background:none; color:var(--ink-soft); font-size:12.5px; font-weight:600; cursor:pointer; width:100%;
+    background:none; color:var(--ink-soft); font-size:12.5px; font-weight:600; cursor:pointer; flex:1;
     justify-content:center;
   }
-  .set-add svg{width:14px; height:14px;}
+  .set-add svg, .set-copy svg{width:14px; height:14px;}
 
   .volume-preview{
     display:flex; align-items:center; justify-content:space-between;
@@ -455,6 +456,36 @@
     background:var(--ink); color:var(--page); font-size:14.5px; font-weight:700; cursor:pointer;
   }
   .submit-btn:active{opacity:0.85;}
+
+  /* ---------- 설정: 운동 부위 · 종목 관리 ---------- */
+  .tax-part{ padding:14px 0; border-bottom:1px solid var(--border); }
+  .tax-part:last-child{ border-bottom:none; }
+  .tax-part-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+  .tax-part-name{ font-size:13.5px; font-weight:700; color:var(--ink); }
+  .tax-part-del{
+    flex:none; padding:5px 10px; border-radius:8px; border:1px solid var(--border);
+    background:var(--surface); color:var(--muted); font-size:11px; font-weight:600; cursor:pointer;
+  }
+  .tax-part-del:disabled{ opacity:.4; cursor:not-allowed; }
+  .tax-ex-chips{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:10px; }
+  .tax-ex-chip{
+    display:inline-flex; align-items:center; gap:6px; padding:6px 6px 6px 12px; border-radius:99px;
+    border:1px solid var(--border); background:var(--surface-2); color:var(--ink-soft); font-size:12px;
+  }
+  .tax-ex-chip button{
+    flex:none; width:18px; height:18px; border-radius:50%; border:none; background:var(--border-strong);
+    color:var(--page); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:11px; line-height:1;
+  }
+  .tax-ex-add{ display:flex; gap:8px; }
+  .tax-ex-add input{
+    flex:1; min-width:0; padding:8px 10px; border-radius:9px; border:1px solid var(--border-strong);
+    background:var(--surface); color:var(--ink); font-size:13px; font-family:inherit;
+  }
+  .tax-ex-add button{
+    flex:none; padding:8px 14px; border-radius:9px; border:1px dashed var(--border-strong);
+    background:none; color:var(--ink-soft); font-size:12px; font-weight:600; cursor:pointer;
+  }
+  .tax-empty-hint{ font-size:11.5px; color:var(--muted); margin-bottom:10px; }
 
   .toast{
     position:fixed; left:50%; bottom:96px; transform:translateX(-50%) translateY(12px);
@@ -586,7 +617,7 @@
         <button type="button" class="pin-key" data-k="0">0</button>
         <button type="button" class="pin-key ghost" data-k="back">←</button>
       </div>
-      <p class="pin-note">기기 잠금용 PIN (기본값 <b>1234</b>). 계정 정보 자체는 Google 로그인으로 보호됨<br>PIN은 이 코드 상단 <code>GATE_PIN</code> 값을 수정해 변경 가능</p>
+      <p class="pin-note">기기 잠금용 PIN (기본값 <b>1234</b>). 계정 정보 자체는 Google 로그인으로 보호됨<br>PIN은 로그인 후 <b>설정</b> 탭 &gt; PIN 변경에서 바꿀 수 있음</p>
     </div>
   </div>
 
@@ -652,6 +683,10 @@
       <button class="rail-item" data-tab="history">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
         이력
+      </button>
+      <button class="rail-item" data-tab="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+        설정
       </button>
       <div class="rail-foot">Firebase 실시간 동기화<br>(Google 계정 로그인 필요)</div>
     </nav>
@@ -802,11 +837,17 @@
           <div class="field">
             <label>세트별 중량 × 반복수</label>
             <div class="set-list" id="setList"></div>
-            <button type="button" class="set-add" id="addSet">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-              세트 추가
-            </button>
-            <p class="hint">머신/케이블 등 스택 무게 기준. 맨몸 운동은 체감 강도(레벨) 값을 입력. 세트마다 중량을 다르게 입력 가능(예: 웜업·드롭세트).</p>
+            <div class="set-actions">
+              <button type="button" class="set-add" id="addSet">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                세트 추가
+              </button>
+              <button type="button" class="set-copy" id="copyLastSet">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V5a1 1 0 0 1 1-1h11"/></svg>
+                이전 세트 복사
+              </button>
+            </div>
+            <p class="hint">머신/케이블 등 스택 무게 기준. 맨몸 운동은 체감 강도(레벨) 값을 입력. 세트마다 중량을 다르게 입력 가능(예: 웜업·드롭세트). "이전 세트 복사"는 직전 세트의 중량·반복수를 그대로 복사함.</p>
           </div>
 
           <div class="volume-preview">
@@ -857,6 +898,49 @@
 
         <div class="recent-list" id="historyList"></div>
       </section>
+
+      <!-- ================= SETTINGS ================= -->
+      <section class="screen" id="screen-settings">
+        <div class="section-head">
+          <div>
+            <h2>설정</h2>
+            <p class="sub">잠금 PIN, 운동 부위 · 종목 관리</p>
+          </div>
+        </div>
+
+        <div class="card" style="padding:16px; margin-bottom:16px;">
+          <h2 style="font-size:13.5px; margin-bottom:4px;">PIN 변경</h2>
+          <p class="sub" style="margin-bottom:12px; line-height:1.6;">이 기기의 잠금 PIN을 변경함. Google 계정과는 별개로 기기마다 각자 적용됨(이 기기에서 바꾼 PIN은 다른 기기에는 영향 없음).</p>
+          <div class="row-2" style="margin-bottom:10px;">
+            <div class="field">
+              <label for="pinCurrent">현재 PIN</label>
+              <input type="password" class="input" id="pinCurrent" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="pinNew">새 PIN (4자리)</label>
+              <input type="password" class="input" id="pinNew" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off">
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:12px;">
+            <label for="pinNewConfirm">새 PIN 확인</label>
+            <input type="password" class="input" id="pinNewConfirm" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off">
+          </div>
+          <button type="button" class="submit-btn" id="pinChangeBtn" style="width:auto; padding:11px 22px;">PIN 변경</button>
+        </div>
+
+        <div class="card" style="padding:16px;">
+          <h2 style="font-size:13.5px; margin-bottom:4px;">운동 부위 · 종목 관리</h2>
+          <p class="sub" style="margin-bottom:14px; line-height:1.6;">부위를 추가하거나 각 부위의 운동 종목을 추가 · 삭제할 수 있음. 변경 사항은 Firestore에 저장되어 로그인된 다른 기기에도 실시간 동기화됨. 기본 제공 부위 10종은 대시보드 차트와 연결되어 있어 삭제할 수 없고, 직접 추가한 부위는 기록이 없을 때만 삭제 가능함.</p>
+          <div id="taxonomyList"><p class="sub">불러오는 중…</p></div>
+          <div class="field" style="margin-top:14px; margin-bottom:0;">
+            <label>새 운동 부위 추가</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" class="input" id="newPartName" placeholder="예: 종아리" style="flex:1;">
+              <button type="button" class="set-copy" id="addPartBtn" style="width:auto; padding:0 18px; flex:none;">추가</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -872,6 +956,10 @@
     <button class="tab" data-tab="history">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
       이력<span class="dot"></span>
+    </button>
+    <button class="tab" data-tab="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+      설정<span class="dot"></span>
     </button>
   </nav>
 
@@ -936,7 +1024,12 @@
   }
 
   /* ---------------- PIN / Google 로그인 게이트 ---------------- */
-  var GATE_PIN = "1234";
+  // PIN은 기기(브라우저)별 localStorage에 저장됨 — 계정 데이터(Firestore)와는 별개의 순수 기기 잠금 장치.
+  // 설정 탭에서 변경 시 즉시 여기 반영되며, 변경 전까지는 기본값 1234를 사용함.
+  function loadGatePin(){
+    try{ return localStorage.getItem('wl-pin-override') || "1234"; }catch(e){ return "1234"; }
+  }
+  var GATE_PIN = loadGatePin();
   var pinGate = document.getElementById('pinGate');
   var authGate = document.getElementById('authGate');
   var configGate = document.getElementById('configGate');
@@ -967,12 +1060,14 @@
       signOutBtn.style.display = 'none';
       setSyncBadge('signed-out');
       stopRecordsSync();
+      stopTaxonomySync();
       renderAll();
       return;
     }
     authGate.classList.add('hidden');
     signOutBtn.style.display = 'flex';
     startRecordsSync(currentUser.uid);
+    startTaxonomySync(currentUser.uid);
   }
 
   function setSyncBadge(state){
@@ -1013,6 +1108,26 @@
       entered += k;
       renderDots(false);
       if(entered.length===4) setTimeout(tryUnlock, 120);
+    });
+  })();
+
+  /* ---------------- 설정 탭: PIN 변경 ---------------- */
+  (function(){
+    var btn = document.getElementById('pinChangeBtn');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var cur = document.getElementById('pinCurrent').value.trim();
+      var next = document.getElementById('pinNew').value.trim();
+      var confirm2 = document.getElementById('pinNewConfirm').value.trim();
+      if(cur !== GATE_PIN){ showToast('현재 PIN이 올바르지 않음'); return; }
+      if(!/^\d{4}$/.test(next)){ showToast('새 PIN은 숫자 4자리로 입력'); return; }
+      if(next !== confirm2){ showToast('새 PIN 확인이 일치하지 않음'); return; }
+      try{ localStorage.setItem('wl-pin-override', next); }catch(e){}
+      GATE_PIN = next;
+      document.getElementById('pinCurrent').value = '';
+      document.getElementById('pinNew').value = '';
+      document.getElementById('pinNewConfirm').value = '';
+      showToast('PIN이 변경됨 — 다음 잠금부터 적용됨');
     });
   })();
 
@@ -1095,8 +1210,8 @@
   }
 
   /* ---------------- Tabs ---------------- */
-  var screens = { dash:'screen-dash', log:'screen-log', history:'screen-history' };
-  var SCREEN_ORDER = ['dash','log','history'];
+  var screens = { dash:'screen-dash', log:'screen-log', history:'screen-history', settings:'screen-settings' };
+  var SCREEN_ORDER = ['dash','log','history','settings'];
   var currentTabName = 'dash';
   function setTab(name){
     if(!screens[name]) return;
@@ -1142,7 +1257,9 @@
   })();
 
   /* ---------------- Reference data (from Google Sheet) ---------------- */
-  var PART_EXERCISES = {
+  // 기본 제공 부위·종목(최초 상태이자, Firestore에 커스텀 설정이 없을 때의 기본값).
+  // 실제 사용 중인 PART_EXERCISES/PARTS는 아래에서 별도 변수로 관리되며, 설정 탭에서 추가/삭제한 내용이 Firestore를 통해 반영됨.
+  var DEFAULT_PART_EXERCISES = {
     "광배근": ["lat pull down","chin up","row - barbell","row - dumbbell","seated row","arm lat pull down","rear deltoid (fly)","cable high pull"],
     "다리": ["squat","leg press","leg extension","leg curl","squat - bulgarian","back extension","back extension - Bulgarians","dead lift - dumbbell","calf raise","squat - front","thruster","squat - hack machine","squat - machine","squat - goblet dumbbell","squat - 5x5","Box jump and push up"],
     "대흉근": ["push up","bench press","dips","fly","inclined press","declined press","butfit"],
@@ -1154,7 +1271,11 @@
     "승모근": ["shrug","neck back lifting","neck front lifting"],
     "전완근": ["wrist curl","wrist curl - reverse","wrist roller","dead hang - false grip"]
   };
-  var PARTS = Object.keys(PART_EXERCISES);
+  var DEFAULT_PARTS_ORDER = Object.keys(DEFAULT_PART_EXERCISES);
+
+  // 실사용 부위·종목 — 설정 탭에서 수정 가능하며, Firestore(users/{uid}/meta/taxonomy) 동기화 시 applyTaxonomy()로 갱신됨.
+  var PART_EXERCISES = JSON.parse(JSON.stringify(DEFAULT_PART_EXERCISES));
+  var PARTS = DEFAULT_PARTS_ORDER.slice();
 
   // 부위별 고정 색상 — 블루→그린 순차 팔레트(10단계). 같은 부위는 앱 전체에서 항상 동일 색.
   var PART_COLORS = {
@@ -1169,8 +1290,15 @@
     "승모근":     {light:"#2dbe82", dark:"#64d3a6"},
     "상완이두근": {light:"#2dbe70", dark:"#64d398"}
   };
+  // 기본 10종 외 직접 추가한 부위의 색상 — 추가 팔레트에서 PARTS 순서 기준으로 고정 배정(앱 전체 동일 색 유지)
+  var EXTRA_PART_COLORS = {};
+  var EXTRA_PART_PALETTE = [
+    {light:"#b4542d", dark:"#d3906a"}, {light:"#8a2dbe", dark:"#b06ad3"},
+    {light:"#be2d6e", dark:"#d36a9a"}, {light:"#2d3fbe", dark:"#6a7ad3"},
+    {light:"#9bbe2d", dark:"#c3d36a"}, {light:"#2dbe4f", dark:"#6ad386"}
+  ];
   function partColor(part){
-    var c = PART_COLORS[part];
+    var c = PART_COLORS[part] || EXTRA_PART_COLORS[part];
     if(!c) return isDarkNow() ? '#6492d3' : '#2d69be';
     return isDarkNow() ? c.dark : c.light;
   }
@@ -1182,10 +1310,43 @@
   };
   function partIcon(part){ return PART_ICONS[part] || 'ic-chest'; }
   function iconSvg(iconId, extra){ return '<svg class="icon"'+(extra||'')+'><use href="#'+iconId+'"></use></svg>'; }
-  // 3주간 운동 기록 가로축 표기 순서 (지정된 순서, 목록에 없던 승모근은 맨 뒤에 추가)
-  var WEEK3_PART_ORDER = ["광배근","대흉근","삼각근","다리","둔근","복직근","상완삼두근","상완이두근","전완근","승모근"];
-  // 3주간 운동 기록 차트 x축 표기용 축약 라벨(내부 로직은 항상 WEEK3_PART_ORDER의 전체 명칭으로 처리, 이 배열은 표시 전용)
-  var WEEK3_PART_ORDER_SHORT = ["광배","대흉","삼각","다리","둔근","복직","삼두","이두","전완","승모"];
+  // 3주간 운동 기록 가로축 표기 순서 기본값(지정된 순서, 목록에 없던 승모근은 맨 뒤에 추가)
+  var DEFAULT_WEEK3_PART_ORDER = ["광배근","대흉근","삼각근","다리","둔근","복직근","상완삼두근","상완이두근","전완근","승모근"];
+  // 3주간 운동 기록 차트 x축 표기용 축약 라벨 기본값(내부 로직은 항상 전체 명칭으로 처리, 이 배열은 표시 전용)
+  var DEFAULT_WEEK3_PART_ORDER_SHORT = ["광배","대흉","삼각","다리","둔근","복직","삼두","이두","전완","승모"];
+  var WEEK3_PART_ORDER = DEFAULT_WEEK3_PART_ORDER.slice();
+  var WEEK3_PART_ORDER_SHORT = DEFAULT_WEEK3_PART_ORDER_SHORT.slice();
+
+  // 설정 탭에서 부위/종목이 바뀔 때마다 호출 — PART_EXERCISES/PARTS/WEEK3 순서/추가 색상을 한번에 재계산함.
+  // data가 없으면(Firestore에 커스텀 설정이 아직 없으면) 기본값으로 동작함.
+  function applyTaxonomy(data){
+    var parts = (data && Array.isArray(data.parts) && data.parts.length) ? data.parts.slice() : DEFAULT_PARTS_ORDER.slice();
+    var exMap = (data && data.exercises && typeof data.exercises==='object') ? data.exercises : {};
+    PARTS = parts;
+    PART_EXERCISES = {};
+    PARTS.forEach(function(p){
+      var ex = exMap[p];
+      PART_EXERCISES[p] = Array.isArray(ex) ? ex.slice() : (DEFAULT_PART_EXERCISES[p] || []).slice();
+    });
+    // 3주간 차트 x축 순서: 기본 10종은 고정 순서 유지, 새로 추가한 부위는 끝에 덧붙임(축약 라벨은 앞 2글자)
+    WEEK3_PART_ORDER = [];
+    WEEK3_PART_ORDER_SHORT = [];
+    DEFAULT_WEEK3_PART_ORDER.forEach(function(p, i){
+      if(PARTS.indexOf(p)>=0){ WEEK3_PART_ORDER.push(p); WEEK3_PART_ORDER_SHORT.push(DEFAULT_WEEK3_PART_ORDER_SHORT[i]); }
+    });
+    PARTS.forEach(function(p){
+      if(WEEK3_PART_ORDER.indexOf(p)<0){
+        WEEK3_PART_ORDER.push(p);
+        WEEK3_PART_ORDER_SHORT.push(p.length>2 ? p.slice(0,2) : p);
+      }
+    });
+    // 추가 부위 색상 배정(기본 10종은 PART_COLORS 그대로 사용)
+    EXTRA_PART_COLORS = {};
+    var ei = 0;
+    PARTS.forEach(function(p){
+      if(!PART_COLORS[p]){ EXTRA_PART_COLORS[p] = EXTRA_PART_PALETTE[ei % EXTRA_PART_PALETTE.length]; ei++; }
+    });
+  }
 
   // sets: [{w, reps}, ...] — 세트별(중량 × 반복수)의 합
   function vol(sets){ return sets.reduce(function(s,x){ return s + x.w*x.reps; },0); }
@@ -1246,6 +1407,120 @@
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
   }
+
+  /* ---------------- Firestore 실시간 데이터: 운동 부위 · 종목 커스텀 설정 ---------------- */
+  // 경로: users/{uid}/meta/taxonomy — { parts:[...], exercises:{부위:[종목,...]} }. 문서가 없으면 applyTaxonomy(null)로 기본값 사용.
+  var unsubscribeTaxonomy = null;
+  function taxonomyDocRef(uid){ return db.collection('users').doc(uid).collection('meta').doc('taxonomy'); }
+  function startTaxonomySync(uid){
+    if(unsubscribeTaxonomy) return; // 이미 구독 중
+    unsubscribeTaxonomy = taxonomyDocRef(uid).onSnapshot(function(snap){
+      applyTaxonomy(snap.exists ? snap.data() : null);
+      refreshPartSelect();
+      refreshExercises();
+      renderTaxonomySettings();
+      renderAll();
+    }, function(err){
+      console.error('운동 부위 · 종목 설정 동기화 오류', err);
+    });
+  }
+  function stopTaxonomySync(){
+    if(unsubscribeTaxonomy){ unsubscribeTaxonomy(); unsubscribeTaxonomy=null; }
+    applyTaxonomy(null);
+  }
+  function saveTaxonomy(){
+    if(!currentUser) return Promise.reject(new Error('not signed in'));
+    return taxonomyDocRef(currentUser.uid).set({ parts: PARTS, exercises: PART_EXERCISES });
+  }
+
+  /* ---------------- 설정 탭: 운동 부위 · 종목 관리 ---------------- */
+  function renderTaxonomySettings(){
+    var wrap = document.getElementById('taxonomyList');
+    if(!wrap) return;
+    if(!currentUser){ wrap.innerHTML = '<p class="sub">로그인 후 이용 가능함</p>'; return; }
+    wrap.innerHTML = PARTS.map(function(p){
+      var isDefault = DEFAULT_PARTS_ORDER.indexOf(p) >= 0;
+      var hasRecords = records.some(function(r){ return r.part === p; });
+      var canDelete = !isDefault && !hasRecords;
+      var delTitle = isDefault ? '기본 제공 부위는 삭제할 수 없음' : (hasRecords ? '기록이 있는 부위는 삭제할 수 없음' : '부위 삭제');
+      var exChips = (PART_EXERCISES[p]||[]).map(function(ex){
+        return '<span class="tax-ex-chip">'+ex+'<button type="button" class="tax-ex-del" data-part="'+p+'" data-ex="'+ex+'" aria-label="종목 삭제">×</button></span>';
+      }).join('');
+      return '<div class="tax-part" data-part="'+p+'">'+
+        '<div class="tax-part-head"><span class="tax-part-name">'+p+'</span>'+
+          '<button type="button" class="tax-part-del" data-part="'+p+'" '+(canDelete?'':'disabled')+' title="'+delTitle+'">부위 삭제</button>'+
+        '</div>'+
+        '<div class="tax-ex-chips">'+(exChips || '<span class="tax-empty-hint" style="margin:0;">등록된 종목 없음</span>')+'</div>'+
+        '<div class="tax-ex-add">'+
+          '<input type="text" placeholder="새 종목명 입력" data-part-input="'+p+'">'+
+          '<button type="button" class="tax-ex-addbtn" data-part="'+p+'">종목 추가</button>'+
+        '</div>'+
+      '</div>';
+    }).join('') || '<p class="sub">등록된 부위 없음</p>';
+  }
+
+  (function(){
+    var wrap = document.getElementById('taxonomyList');
+    if(!wrap) return;
+    wrap.addEventListener('click', function(ev){
+      var delBtn = ev.target.closest('.tax-ex-del');
+      if(delBtn){
+        var part = delBtn.getAttribute('data-part'), ex = delBtn.getAttribute('data-ex');
+        PART_EXERCISES[part] = (PART_EXERCISES[part]||[]).filter(function(e){ return e!==ex; });
+        saveTaxonomy(); renderTaxonomySettings(); refreshExercises();
+        return;
+      }
+      var addBtn = ev.target.closest('.tax-ex-addbtn');
+      if(addBtn){
+        var p = addBtn.getAttribute('data-part');
+        var input = wrap.querySelector('[data-part-input="'+p+'"]');
+        var val = (input.value||'').trim();
+        if(!val){ showToast('종목명을 입력할 것'); return; }
+        PART_EXERCISES[p] = PART_EXERCISES[p] || [];
+        if(PART_EXERCISES[p].indexOf(val)>=0){ showToast('이미 등록된 종목명임'); return; }
+        PART_EXERCISES[p].push(val);
+        input.value = '';
+        saveTaxonomy(); renderTaxonomySettings(); refreshExercises();
+        return;
+      }
+      var partDelBtn = ev.target.closest('.tax-part-del');
+      if(partDelBtn && !partDelBtn.disabled){
+        var pd = partDelBtn.getAttribute('data-part');
+        if(DEFAULT_PARTS_ORDER.indexOf(pd)>=0){ showToast('기본 제공 부위는 삭제할 수 없음'); return; }
+        if(records.some(function(r){ return r.part===pd; })){ showToast('기록이 있는 부위는 삭제할 수 없음'); renderTaxonomySettings(); return; }
+        if(!confirm('"'+pd+'" 부위를 삭제함? 등록된 종목도 함께 삭제됨.')) return;
+        PARTS = PARTS.filter(function(x){ return x!==pd; });
+        delete PART_EXERCISES[pd];
+        var wi = WEEK3_PART_ORDER.indexOf(pd);
+        if(wi>=0){ WEEK3_PART_ORDER.splice(wi,1); WEEK3_PART_ORDER_SHORT.splice(wi,1); }
+        delete EXTRA_PART_COLORS[pd];
+        saveTaxonomy(); renderTaxonomySettings(); refreshPartSelect(); refreshExercises(); renderAll();
+        return;
+      }
+    });
+    var newPartInput = document.getElementById('newPartName');
+    var addPartBtn = document.getElementById('addPartBtn');
+    if(addPartBtn){
+      addPartBtn.addEventListener('click', function(){
+        var val = (newPartInput.value||'').trim();
+        if(!val){ showToast('부위명을 입력할 것'); return; }
+        if(PARTS.indexOf(val)>=0){ showToast('이미 등록된 부위명임'); return; }
+        PARTS.push(val);
+        PART_EXERCISES[val] = [];
+        if(WEEK3_PART_ORDER.indexOf(val)<0){
+          WEEK3_PART_ORDER.push(val);
+          WEEK3_PART_ORDER_SHORT.push(val.length>2 ? val.slice(0,2) : val);
+        }
+        if(!PART_COLORS[val] && !EXTRA_PART_COLORS[val]){
+          var usedExtra = Object.keys(EXTRA_PART_COLORS).length;
+          EXTRA_PART_COLORS[val] = EXTRA_PART_PALETTE[usedExtra % EXTRA_PART_PALETTE.length];
+        }
+        newPartInput.value = '';
+        saveTaxonomy(); renderTaxonomySettings(); refreshPartSelect(); refreshExercises(); renderAll();
+        showToast('"'+val+'" 부위가 추가됨');
+      });
+    }
+  })();
 
   /* ---------------- 과거 Google Sheets 데이터 가져오기 (1회성, 재실행해도 중복 안 됨) ---------------- */
   var LEGACY_RECORDS = window.LEGACY_RECORDS || [];
@@ -2017,9 +2292,15 @@
   var setList = document.getElementById('setList');
 
   partSelect.innerHTML = PARTS.map(function(p){ return '<option value="'+p+'">'+p+'</option>'; }).join('');
+  function refreshPartSelect(){
+    var prev = partSelect.value;
+    partSelect.innerHTML = PARTS.map(function(p){ return '<option value="'+p+'">'+p+'</option>'; }).join('');
+    if(PARTS.indexOf(prev)>=0) partSelect.value = prev;
+  }
   function refreshExercises(){
     var p = partSelect.value;
-    exSelect.innerHTML = PART_EXERCISES[p].map(function(e){ return '<option value="'+e+'">'+e+'</option>'; }).join('');
+    var list = PART_EXERCISES[p] || [];
+    exSelect.innerHTML = list.map(function(e){ return '<option value="'+e+'">'+e+'</option>'; }).join('');
   }
   partSelect.addEventListener('change', refreshExercises);
   refreshExercises();
@@ -2065,6 +2346,15 @@
     var lastRow = rows.length ? rows[rows.length-1] : null;
     var lastW = lastRow ? parseFloat(lastRow.querySelector('.set-w').value) : NaN;
     addSetRow(isNaN(lastW) ? 20 : lastW, '');
+  });
+  document.getElementById('copyLastSet').addEventListener('click', function(){
+    // 직전 세트의 중량·반복수를 그대로 복사(동일한 세트를 반복할 때 편의상 적용)
+    var rows = setList.querySelectorAll('.set-row');
+    var lastRow = rows.length ? rows[rows.length-1] : null;
+    if(!lastRow){ showToast('복사할 이전 세트가 없음'); return; }
+    var lastW = parseFloat(lastRow.querySelector('.set-w').value);
+    var lastReps = parseFloat(lastRow.querySelector('.set-reps').value);
+    addSetRow(isNaN(lastW) ? 20 : lastW, isNaN(lastReps) ? '' : lastReps);
   });
   DEFAULT_SETS.forEach(function(pair){ addSetRow(pair[0], pair[1]); });
 
@@ -2176,7 +2466,7 @@
     // 각 렌더 단계는 독립적으로 실행함 — 특정 단계(예: 차트 라이브러리 로딩 실패)에서
     // 오류가 나도 나머지 화면(이력/최근기록/가져오기 상태 등)까지 함께 멈추지 않도록 함.
     [renderStats, renderRank, renderWeeklyStatusChart, renderThreeWeekChart, renderDailyChart,
-     renderRecent, renderHistory, renderTodayList, renderImportScreen].forEach(function(fn){
+     renderRecent, renderHistory, renderTodayList, renderImportScreen, renderTaxonomySettings].forEach(function(fn){
       try{ fn(); }catch(e){ console.error('[renderAll] '+(fn.name||'render')+' 실패', e); }
     });
   }
