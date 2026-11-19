@@ -1374,7 +1374,11 @@
   });
 
   /* ---------------- 모바일/태블릿 좌우 스와이프로 탭 전환 ---------------- */
+  // 2026-11-19 비활성화: 기록 입력의 부위·종목 칩을 가로로 넘길 때 화면이 전환되는 문제로 끔.
+  // 다시 켜려면 아래 값을 true로 변경.
+  var SWIPE_NAV_ENABLED = false;
   (function(){
+    if(!SWIPE_NAV_ENABLED) return;
     var mainEl = document.querySelector('main');
     if(!mainEl) return;
     var startX=0, startY=0, tracking=false;
