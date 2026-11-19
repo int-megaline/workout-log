@@ -8,73 +8,83 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<meta name="theme-color" content="#f4f4f2" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0c0c0c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f6f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="운동 일지">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ===== 디자인 토큰 — 최종안(A · Ledger 모노 에디토리얼): 흑/백/회색 + 파스텔 블루·그린 차트 ===== */
   :root{
     color-scheme: light;
-    --page:#f4f4f2;
-    --surface:#ffffff;
-    --surface-2:#f4f4f2;
-    --ink:#0b0b0b;
-    --ink-soft:#52514e;
-    --muted:#898781;
-    --border:rgba(11,11,11,0.10);
-    --border-strong:rgba(11,11,11,0.16);
-    --accent:#2a78d6;
-    --accent-ink:#ffffff;
-    --accent-soft:rgba(42,120,214,0.12);
-    --accent-2:#1baf7a;
-    --accent-2-soft:rgba(27,175,122,0.13);
-    --good:#0ca30c;
-    --grid:#e1e0d9;
-    --baseline:#c3c2b7;
-    --shadow: 0 1px 2px rgba(11,11,11,0.04), 0 8px 24px -16px rgba(11,11,11,0.18);
+      --page:#f6f6f4;
+      --surface:#ffffff;
+      --surface-2:#ecebe7;
+      --ink:#111111;
+      --ink-soft:#45443f;
+      --muted:#6b6a65;
+      --border:rgba(17,17,17,0.12);
+      --border-strong:rgba(17,17,17,0.22);
+      --accent:#6fa3d6;
+      --accent-ink:#0f1a24;
+      --accent-soft:rgba(111,163,214,0.16);
+      --accent-2:#7fbf9a;
+      --accent-2-soft:rgba(127,191,154,0.20);
+      --good:#3f9a68;
+      --grid:#ebeae5;
+      --baseline:#d4d2cb;
+      --inv:#111111;
+      --inv-ink:#f6f6f4;
+      --shadow:none;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
       color-scheme: dark;
-      --page:#0c0c0c;
-      --surface:#1a1a19;
-      --surface-2:#212120;
-      --ink:#ffffff;
-      --ink-soft:#c3c2b7;
-      --muted:#8f8e87;
-      --border:rgba(255,255,255,0.10);
-      --border-strong:rgba(255,255,255,0.18);
-      --accent:#3987e5;
-      --accent-ink:#ffffff;
-      --accent-soft:rgba(57,135,229,0.18);
-      --accent-2:#28b781;
-      --accent-2-soft:rgba(40,183,129,0.18);
-      --good:#26c281;
-      --grid:#2c2c2a;
+      --page:#0f0f0f;
+      --surface:#171716;
+      --surface-2:#232321;
+      --ink:#f2f2f0;
+      --ink-soft:#c4c3bd;
+      --muted:#9b9a94;
+      --border:rgba(255,255,255,0.11);
+      --border-strong:rgba(255,255,255,0.22);
+      --accent:#8fbbe4;
+      --accent-ink:#0f1a24;
+      --accent-soft:rgba(143,187,228,0.18);
+      --accent-2:#93cfab;
+      --accent-2-soft:rgba(147,207,171,0.18);
+      --good:#8fd1ab;
+      --grid:#252523;
       --baseline:#3a3a37;
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -16px rgba(0,0,0,0.6);
+      --inv:#f2f2f0;
+      --inv-ink:#0f0f0f;
+      --shadow:none;
     }
   }
   :root[data-theme="dark"]{
     color-scheme: dark;
-    --page:#0c0c0c;
-    --surface:#1a1a19;
-    --surface-2:#212120;
-    --ink:#ffffff;
-    --ink-soft:#c3c2b7;
-    --muted:#8f8e87;
-    --border:rgba(255,255,255,0.10);
-    --border-strong:rgba(255,255,255,0.18);
-    --accent:#3987e5;
-    --accent-ink:#ffffff;
-    --accent-soft:rgba(57,135,229,0.18);
-    --accent-2:#28b781;
-    --accent-2-soft:rgba(40,183,129,0.18);
-    --good:#26c281;
-    --grid:#2c2c2a;
-    --baseline:#3a3a37;
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -16px rgba(0,0,0,0.6);
+      --page:#0f0f0f;
+      --surface:#171716;
+      --surface-2:#232321;
+      --ink:#f2f2f0;
+      --ink-soft:#c4c3bd;
+      --muted:#9b9a94;
+      --border:rgba(255,255,255,0.11);
+      --border-strong:rgba(255,255,255,0.22);
+      --accent:#8fbbe4;
+      --accent-ink:#0f1a24;
+      --accent-soft:rgba(143,187,228,0.18);
+      --accent-2:#93cfab;
+      --accent-2-soft:rgba(147,207,171,0.18);
+      --good:#8fd1ab;
+      --grid:#252523;
+      --baseline:#3a3a37;
+      --inv:#f2f2f0;
+      --inv-ink:#0f0f0f;
+      --shadow:none;
   }
 
   *{box-sizing:border-box;}
@@ -91,7 +101,8 @@
   button{font-family:inherit; -webkit-tap-highlight-color:transparent;}
   ::selection{background:var(--accent-soft);}
 
-  .num{ font-variant-numeric: tabular-nums; }
+  .num, .fig{ font-variant-numeric: tabular-nums; }
+  .fig{ font-family:"Inter Tight", "Noto Sans KR", system-ui, sans-serif; }
 
   /* ---------- App shell ---------- */
   .app{
@@ -183,9 +194,9 @@
     color:var(--muted); font-size:10.5px; font-weight:500;
   }
   .tab svg{width:21px; height:21px;}
-  .tab[aria-selected="true"]{color:var(--accent);}
+  .tab[aria-selected="true"]{color:var(--ink); font-weight:700; box-shadow:inset 0 2px 0 var(--ink);}
   .tab .dot{
-    width:5px; height:5px; border-radius:50%; background:var(--accent);
+    width:5px; height:5px; border-radius:50%; background:var(--ink); display:none;
     opacity:0; transform:scale(0);
   }
   .tab[aria-selected="true"] .dot{opacity:1; transform:scale(1);}
@@ -510,6 +521,128 @@
   }
   footer a{color:var(--ink-soft);}
 
+
+  /* =====================================================================
+     최종안 스타일 오버라이드 — 대시보드: A · Ledger / 기록 입력: B · 세션 모드
+     ===================================================================== */
+  .card{border-radius:6px; box-shadow:none;}
+  .topbar{border-bottom:1px solid var(--border);}
+  .brand-mark{background:transparent; color:var(--ink); border:1px solid var(--border-strong); border-radius:8px;}
+  .brand-text h1{font-size:15px;}
+  .brand-text p{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;}
+  .icon-btn{border-radius:8px; background:transparent;}
+  .chip{border-radius:18px; background:transparent;}
+  .section-head h2{font-size:17px; letter-spacing:-0.01em;}
+  .submit-btn{border-radius:6px; background:var(--inv); color:var(--inv-ink);}
+
+  /* ---------- A · 대시보드 히어로 ---------- */
+  .hero{padding:6px 0 18px;}
+  .hero-label{font-size:12.5px; color:var(--muted);}
+  .hero-value{display:flex; align-items:baseline; gap:8px; margin-top:6px;}
+  .hero-value .stat-value{font-size:60px; font-weight:300; letter-spacing:-0.04em; line-height:1; font-family:"Inter Tight","Noto Sans KR",sans-serif;}
+  .hero-value .stat-value small{font-size:16px; font-weight:400; color:var(--ink-soft); margin-left:6px; letter-spacing:0;}
+  .hero-meta{display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:12px; font-size:12.5px; color:var(--ink-soft);}
+  .hero-meta .delta{padding:3px 8px; border-radius:4px; background:var(--surface-2); color:var(--ink); font-weight:600;}
+  .hero-meta .delta.up{color:var(--good);}
+  .week-strip{display:flex; margin-top:20px;}
+  .wk-day{flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; font-size:11px; color:var(--muted);}
+  .wk-dot{width:28px; height:28px; border-radius:50%; display:grid; place-items:center; border:1px solid var(--border); color:var(--muted); font-size:11px; font-family:"Inter Tight",sans-serif;}
+  .wk-day.on .wk-dot{background:var(--inv); color:var(--inv-ink); border-color:var(--inv);}
+  .wk-day.today .wk-dot{outline:2px solid var(--accent); outline-offset:2px;}
+  .kpi-strip{display:flex; border:1px solid var(--border); border-radius:4px; margin-bottom:22px; background:var(--surface);}
+  .kpi{flex:1; min-width:0; padding:13px 12px; display:flex; flex-direction:column; gap:4px;}
+  .kpi + .kpi{border-left:1px solid var(--border);}
+  .kpi .stat-label{font-size:11px;}
+  .kpi .stat-value{font-size:17px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .kpi .stat-value small{font-size:11.5px;}
+  .kpi .delta{font-size:11px; font-weight:500;}
+  /* 대시보드 섹션: 카드 대신 얇은 구분선 + 번호(01~05) */
+  #screen-dash .collapsible{background:transparent; border:0; border-top:1px solid var(--border); border-radius:0; box-shadow:none; margin-bottom:0;}
+  #screen-dash .collapse-head{padding:20px 0 14px;}
+  #screen-dash .collapse-inner{padding:0 0 22px;}
+  #screen-dash .collapse-head h2{font-size:16px;}
+  .sec-no{font-family:"Inter Tight",sans-serif; font-size:12px; color:var(--muted); width:22px; flex:none; align-self:flex-start; padding-top:3px;}
+  .sec-title{display:flex; gap:8px; min-width:0; flex:1;}
+  #cardRecent .collapse-row{display:flex; align-items:center; gap:8px; padding:20px 0 14px;}
+  #screen-dash .rec-card{border-radius:0; border:0; border-bottom:1px solid var(--border); background:transparent; padding:12px 0;}
+  #screen-dash .recent-list{gap:0;}
+  .hrow .track, .exrow-track, .rank-track{border:0; height:5px;}
+  .hrow .ic{border-radius:6px; color:#14202b;}
+  .week-seg{color:#14202b;}
+
+  /* ---------- B · 세션 기록 입력 ---------- */
+  .sess-head{display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;}
+  .sess-head .t{flex:1 1 100%; min-width:0;}
+  @media (min-width:768px){ .sess-head .t{flex:1 1 auto;} }
+  .date-pill{display:inline-flex; align-items:center; gap:6px; height:38px; padding:0 12px; border:1px solid var(--border); border-radius:19px; background:var(--surface); color:var(--ink-soft); flex:none;}
+  .date-pill svg{width:15px; height:15px; flex:none;}
+  .date-pill input{border:0; background:transparent; color:var(--ink); font:500 13px "Inter Tight","Noto Sans KR",sans-serif; padding:0; width:122px; outline:none;}
+  .rest-chip{display:none; align-items:center; gap:6px; height:38px; padding:0 12px; border-radius:19px; border:0; background:var(--surface-2); color:var(--ink); font:600 12.5px "Inter Tight",sans-serif; cursor:pointer; flex:none;}
+  .rest-chip.on{display:inline-flex;}
+  .rest-chip svg{width:15px; height:15px; color:var(--good);}
+  .sess-label{display:block; font-size:12px; color:var(--muted); margin:4px 0 8px;}
+  .sel-hidden{position:absolute !important; width:1px; height:1px; opacity:0; pointer-events:none;}
+  .log-chips{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px; scrollbar-width:none;}
+  .log-chips::-webkit-scrollbar{display:none;}
+  .log-chip{flex:none; height:38px; padding:0 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--ink-soft); font-size:13px; cursor:pointer; white-space:nowrap; display:inline-flex; align-items:center; gap:6px;}
+  .log-chip .pdot{width:8px; height:8px; border-radius:2px; flex:none;}
+  .log-chip[aria-pressed="true"]{background:var(--inv); color:var(--inv-ink); border-color:var(--inv); font-weight:600;}
+  .ex-hist{margin:0 0 14px; padding:2px 0;}
+  .ex-hist-row{display:flex; gap:10px; align-items:baseline; font-size:12.5px; padding:8px 0; border-bottom:1px dashed var(--border);}
+  .ex-hist-row .d{width:54px; flex:none; color:var(--muted); font-family:"Inter Tight",sans-serif;}
+  .ex-hist-row .s{flex:1; min-width:0; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .ex-hist-row .v{flex:none; font-family:"Inter Tight",sans-serif; font-weight:500;}
+  .ex-hist-empty{font-size:12px; color:var(--muted); padding:8px 0;}
+  .sess-card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:12px;}
+  .sess-card-head{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px;}
+  .sess-card-head .ex{font-size:15.5px; font-weight:700; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .sess-card-head .no{font:500 12px "Inter Tight",sans-serif; color:var(--muted); letter-spacing:.06em; flex:none;}
+  .steppers{display:flex; gap:10px;}
+  .stepper{flex:1; min-width:0; background:var(--surface-2); border-radius:14px; padding:12px; display:flex; flex-direction:column; align-items:center; gap:8px;}
+  .stepper .lab{font-size:11.5px; color:var(--muted);}
+  .stepper .valrow{display:flex; align-items:baseline; justify-content:center; gap:4px; width:100%;}
+  .stepper input{width:100%; max-width:130px; border:0; background:transparent; text-align:center; color:var(--ink); font:600 42px "Inter Tight","Noto Sans KR",sans-serif; letter-spacing:-0.04em; padding:0; line-height:1.05; -moz-appearance:textfield;}
+  .stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0;}
+  .stepper .u{font-size:12px; color:var(--muted); flex:none;}
+  .stepper .btns{display:flex; gap:8px; width:100%;}
+  .stepper .btns button{flex:1; height:44px; border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--ink); display:grid; place-items:center; cursor:pointer;}
+  .stepper .btns svg{width:18px; height:18px;}
+  .quick-row{display:flex; gap:6px; margin-top:10px;}
+  .quick-row button{flex:1; height:36px; border-radius:8px; border:1px dashed var(--border-strong); background:transparent; color:var(--ink-soft); font:500 12px "Inter Tight","Noto Sans KR",sans-serif; cursor:pointer;}
+  .complete-btn{width:100%; height:54px; margin-top:14px; border:0; border-radius:14px; background:var(--accent-2); color:#0e2418; font-size:16px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;}
+  .complete-btn svg{width:20px; height:20px;}
+  .sess-card .set-actions{margin-top:8px;}
+  .sess-card .set-add, .sess-card .set-copy{height:42px; border-radius:12px; border:1px solid var(--border); font-weight:500; color:var(--ink);}
+  .done-card{padding:6px 16px 14px;}
+  .done-title{display:flex; justify-content:space-between; font-size:12px; color:var(--muted); padding:10px 0 4px;}
+  .done-card .set-list{gap:0;}
+  .done-card .set-row{padding:8px 0; border-bottom:1px solid var(--border); gap:8px;}
+  .done-card .set-idx{background:transparent; width:30px; justify-content:flex-start; font:500 12px "Inter Tight",sans-serif;}
+  .done-card .set-fields input{border:1px solid transparent; background:var(--surface-2); font:600 15px "Inter Tight","Noto Sans KR",sans-serif; padding:8px 28px 8px 8px;}
+  .done-card .set-fields input:focus{border-color:var(--ink);}
+  .done-card .set-v{flex:none; width:58px; text-align:right; font:500 12.5px "Inter Tight",sans-serif; color:var(--ink-soft);}
+  .done-card .set-remove{border:0; background:transparent;}
+  .done-empty{font-size:12.5px; color:var(--muted); padding:14px 0 6px; text-align:center;}
+  .cmp{padding-top:12px; display:none; flex-direction:column; gap:8px;}
+  .cmp.on{display:flex;}
+  .cmp-top{display:flex; justify-content:space-between; gap:10px; font-size:12px;}
+  .cmp-top span:first-child{color:var(--muted);}
+  .cmp-top b{font-family:"Inter Tight",sans-serif; font-weight:600;}
+  .cmp-track{height:8px; border-radius:4px; background:var(--surface-2); overflow:hidden;}
+  .cmp-fill{height:100%; width:0; background:var(--accent); transition:width .3s ease;}
+  .save-bar{position:sticky; bottom:calc(64px + env(safe-area-inset-bottom)); z-index:15; display:flex; align-items:center; gap:12px; margin:14px -16px 0; padding:12px 16px; background:var(--page); border-top:1px solid var(--ink);}
+  .save-bar .l{flex:1; min-width:0; display:flex; flex-direction:column; gap:1px;}
+  .save-bar .l span{font-size:11px; color:var(--muted);}
+  .save-bar .l b{font:500 24px "Inter Tight","Noto Sans KR",sans-serif; letter-spacing:-0.02em;}
+  .save-bar .submit-btn{width:auto; height:52px; padding:0 26px; flex:none;}
+  @media (min-width:768px){
+    .hero-row{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:32px; align-items:end; margin-bottom:22px;}
+    .hero-row .kpi-strip{margin-bottom:0;}
+    .hero-value .stat-value{font-size:72px;}
+    .dash-grid{gap:32px;}
+    .save-bar{bottom:0; margin:14px 0 0; padding:12px 0;}
+  }
+
   /* ---------- Tablet / Desktop ---------- */
   @media (min-width:768px){
     .tabbar{display:none;}
@@ -525,7 +658,7 @@
       color:var(--ink-soft); font-size:13.5px; font-weight:600; cursor:pointer; text-align:left;
     }
     .rail-item svg{width:18px; height:18px; flex:none;}
-    .rail-item[aria-selected="true"]{background:var(--accent-soft); color:var(--accent);}
+    .rail-item[aria-selected="true"]{background:var(--inv); color:var(--inv-ink);}
     .rail-item:hover:not([aria-selected="true"]){background:var(--surface-2); color:var(--ink);}
     .rail-foot{margin-top:auto; padding:10px 12px; font-size:10.5px; color:var(--muted); line-height:1.6;}
 
@@ -694,44 +827,41 @@
     <main>
       <!-- ================= DASHBOARD ================= -->
       <section class="screen active" id="screen-dash">
-        <div class="section-head">
-          <div>
-            <h2>이번 주 현황</h2>
-            <p class="sub" id="dashPeriodSub">불러오는 중…</p>
+        <div class="hero-row">
+          <div class="hero">
+            <span class="hero-label">이번 주 총 볼륨 · <span id="dashPeriodSub">불러오는 중…</span></span>
+            <div class="hero-value"><span class="stat-value" id="statVolume">0 <small>kg</small></span></div>
+            <div class="hero-meta">
+              <span class="delta" id="statDelta"><span style="color:var(--muted); font-weight:500;">전주 기록 없음</span></span>
+              <span id="statDeltaNote"></span>
+            </div>
+            <div class="week-strip" id="weekStrip" aria-label="이번 주 운동한 요일"></div>
           </div>
-        </div>
-
-        <div class="stat-grid">
-          <div class="card stat">
-            <span class="stat-label">이번 주 총 볼륨</span>
-            <span class="stat-value num" id="statVolume">0 <small>kg</small></span>
-            <span class="delta" id="statDelta">
-              <span style="color:var(--muted); font-weight:500;">전주 기록 없음</span>
-            </span>
-          </div>
-          <div class="card stat">
-            <span class="stat-label">운동일수</span>
-            <span class="stat-value num" id="statDays">0 <small>일 / 7일</small></span>
-          </div>
-          <div class="card stat">
-            <span class="stat-label">최다 부위</span>
-            <span class="stat-value" id="statTopPart">–</span>
-            <span class="delta"><span style="color:var(--muted); font-weight:500;" id="statTopPartDetail">이번 주 기록 없음</span></span>
-          </div>
-          <div class="card stat">
-            <span class="stat-label">최저 부위</span>
-            <span class="stat-value" id="statLowPart">–</span>
-            <span class="delta"><span style="color:var(--muted); font-weight:500;" id="statLowPartDetail">이번 주 기록 없음</span></span>
+          <div class="kpi-strip">
+            <div class="kpi">
+              <span class="stat-label">운동일수</span>
+              <span class="stat-value fig" id="statDays">0 <small>일 / 7일</small></span>
+            </div>
+            <div class="kpi">
+              <span class="stat-label">최다 부위</span>
+              <span class="stat-value" id="statTopPart">–</span>
+              <span class="delta"><span style="color:var(--muted);" id="statTopPartDetail">이번 주 기록 없음</span></span>
+            </div>
+            <div class="kpi">
+              <span class="stat-label">최저 부위</span>
+              <span class="stat-value" id="statLowPart">–</span>
+              <span class="delta"><span style="color:var(--muted);" id="statLowPartDetail">이번 주 기록 없음</span></span>
+            </div>
           </div>
         </div>
 
         <div class="dash-grid">
           <div class="card collapsible" id="cardDaily">
             <button type="button" class="collapse-head">
-              <div>
+              <div class="sec-title"><span class="sec-no">01</span><div>
                 <h2>최근 7일 운동 기록</h2>
                 <p class="sub" id="dailySummary">9.03 – 9.09 · 일별 부위 구성</p>
-              </div>
+              </div></div>
               <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="collapse-body"><div class="collapse-inner">
@@ -744,10 +874,10 @@
 
           <div class="card collapsible" id="cardThreeWeek">
             <button type="button" class="collapse-head">
-              <div>
+              <div class="sec-title"><span class="sec-no">02</span><div>
                 <h2>3주간 운동 기록</h2>
                 <p class="sub" id="threeWeekSub">불러오는 중…</p>
-              </div>
+              </div></div>
               <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="collapse-body"><div class="collapse-inner">
@@ -761,10 +891,10 @@
 
         <div class="card collapsible" id="cardTrend">
           <button type="button" class="collapse-head">
-            <div>
+            <div class="sec-title"><span class="sec-no">03</span><div>
               <h2>주간 볼륨 현황</h2>
               <p class="sub" id="statusSubtitle">1주차 – 37주차 · 주차별 실측값과 추세선</p>
-            </div>
+            </div></div>
             <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="collapse-body"><div class="collapse-inner">
@@ -772,10 +902,10 @@
           </div></div>
         </div>
 
-        <div class="card collapsible" id="cardRecent" style="margin-top:4px;">
-          <div style="display:flex; align-items:center; gap:8px; padding:16px 16px 14px;">
+        <div class="card collapsible" id="cardRecent">
+          <div class="collapse-row">
             <button type="button" class="collapse-head" style="padding:0; flex:1; min-width:0;">
-              <div><h2>최근 기록</h2></div>
+              <div class="sec-title"><span class="sec-no">04</span><div><h2>최근 기록</h2></div></div>
               <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <button class="chip" style="padding:5px 11px; font-size:11.5px; flex:none;" data-tab="history">전체 보기</button>
@@ -787,10 +917,10 @@
 
         <div class="card collapsible closed" id="cardRank">
           <button type="button" class="collapse-head">
-            <div>
+            <div class="sec-title"><span class="sec-no">05</span><div>
               <h2>부위별 누적 비중</h2>
               <p class="sub">전체 기간 누적 · 종목 배분 확인용</p>
-            </div>
+            </div></div>
             <div style="display:flex; align-items:center; gap:10px; flex:none;">
               <span class="period-tag" id="rankPeriod">불러오는 중…</span>
               <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -804,58 +934,72 @@
 
       <!-- ================= LOG ENTRY ================= -->
       <section class="screen" id="screen-log">
-        <div class="section-head">
-          <div>
-            <h2>운동 기록 입력</h2>
-            <p class="sub">부위 선택 시 해당 운동 목록이 자동으로 표시됨</p>
-          </div>
-        </div>
-
-        <div class="demo-banner">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          <span>저장 시 Firebase(Firestore)에 즉시 반영되며 로그인된 다른 기기에도 실시간으로 동기화됨. 오프라인 상태에서 저장하면 온라인 복귀 시 자동으로 반영됨.</span>
-        </div>
-
         <div class="form-grid">
-        <form class="card form-card" id="logForm">
-          <div class="row-2">
-            <div class="field">
-              <label for="fDate">날짜</label>
-              <input type="date" class="input" id="fDate">
+        <form id="logForm" novalidate>
+          <div class="sess-head">
+            <div class="t">
+              <h2 style="font-size:17px;">기록 입력</h2>
+              <p class="sub">세트를 끝낼 때마다 "세트 완료"로 기록</p>
             </div>
-            <div class="field">
-              <label for="fPart">운동 부위</label>
-              <select id="fPart"></select>
-            </div>
+            <button type="button" class="rest-chip" id="restTimer" aria-label="휴식 타이머 (눌러서 정지)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg><span id="restTimerText">휴식 00:00</span></button>
+            <label class="date-pill" title="운동 날짜"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><input type="date" id="fDate" aria-label="운동 날짜"></label>
           </div>
 
-          <div class="field">
-            <label for="fExercise">운동 종목</label>
-            <select id="fExercise"></select>
-          </div>
+          <select id="fPart" class="sel-hidden" aria-hidden="true" tabindex="-1"></select>
+          <select id="fExercise" class="sel-hidden" aria-hidden="true" tabindex="-1"></select>
 
-          <div class="field">
-            <label>세트별 중량 × 반복수</label>
-            <div class="set-list" id="setList"></div>
+          <span class="sess-label">운동 부위</span>
+          <div class="log-chips" id="logPartChips" role="group" aria-label="운동 부위 선택"></div>
+          <span class="sess-label">운동 종목</span>
+          <div class="log-chips" id="logExChips" role="group" aria-label="운동 종목 선택"></div>
+
+          <span class="sess-label">최근 기록 · 같은 종목</span>
+          <div class="ex-hist" id="exHistory"></div>
+
+          <div class="sess-card">
+            <div class="sess-card-head">
+              <span class="ex" id="curExName">–</span>
+              <span class="no" id="curSetNo">SET 1</span>
+            </div>
+            <div class="steppers">
+              <div class="stepper">
+                <span class="lab">중량</span>
+                <div class="valrow"><input type="number" inputmode="decimal" step="0.5" min="0" id="curW" value="20" aria-label="현재 세트 중량(kg)"><span class="u">kg</span></div>
+                <div class="btns"><button type="button" data-step="w" data-d="-2.5" aria-label="중량 2.5kg 감소"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></button><button type="button" data-step="w" data-d="2.5" aria-label="중량 2.5kg 증가"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
+              </div>
+              <div class="stepper">
+                <span class="lab">반복</span>
+                <div class="valrow"><input type="number" inputmode="numeric" step="1" min="0" id="curR" value="10" aria-label="현재 세트 반복수"><span class="u">회</span></div>
+                <div class="btns"><button type="button" data-step="r" data-d="-1" aria-label="반복수 1회 감소"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></button><button type="button" data-step="r" data-d="1" aria-label="반복수 1회 증가"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
+              </div>
+            </div>
+            <div class="quick-row">
+              <button type="button" data-step="w" data-d="2.5">+2.5kg</button>
+              <button type="button" data-step="w" data-d="5">+5kg</button>
+              <button type="button" data-step="w" data-d="10">+10kg</button>
+              <button type="button" data-step="r" data-d="5">+5회</button>
+            </div>
+            <button type="button" class="complete-btn" id="completeSet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span id="completeSetText">세트 1 완료</span></button>
             <div class="set-actions">
-              <button type="button" class="set-add" id="addSet">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-                세트 추가
-              </button>
-              <button type="button" class="set-copy" id="copyLastSet">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V5a1 1 0 0 1 1-1h11"/></svg>
-                이전 세트 복사
-              </button>
+              <button type="button" class="set-copy" id="copyLastSet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V5a1 1 0 0 1 1-1h11"/></svg>이전 세트 복사</button>
+              <button type="button" class="set-add" id="addSet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>세트 추가</button>
             </div>
-            <p class="hint">머신/케이블 등 스택 무게 기준. 맨몸 운동은 체감 강도(레벨) 값을 입력. 세트마다 중량을 다르게 입력 가능(예: 웜업·드롭세트). "이전 세트 복사"는 직전 세트의 중량·반복수를 그대로 복사함.</p>
           </div>
 
-          <div class="volume-preview">
-            <span class="l">자동 계산 볼륨 (세트별 중량 × 반복의 합)</span>
-            <span class="v num" id="volPreview">0 kg</span>
+          <div class="sess-card done-card">
+            <div class="done-title"><span>완료한 세트 (탭하여 수정 가능)</span><span class="fig" id="doneCount">0 / 10</span></div>
+            <div class="set-list" id="setList"></div>
+            <p class="done-empty" id="doneEmpty">아직 완료한 세트가 없음</p>
+            <div class="cmp" id="cmpWrap">
+              <div class="cmp-top"><span id="cmpLabel">지난 기록 대비</span><b id="cmpPct">0%</b></div>
+              <div class="cmp-track"><div class="cmp-fill" id="cmpFill"></div></div>
+            </div>
           </div>
 
-          <button type="submit" class="submit-btn">기록 저장</button>
+          <div class="save-bar">
+            <div class="l"><span>자동 계산 볼륨 (세트별 중량 × 반복의 합)</span><b class="fig" id="volPreview">0 kg</b></div>
+            <button type="submit" class="submit-btn">기록 저장</button>
+          </div>
         </form>
 
         <div>
@@ -863,9 +1007,10 @@
             <h2 style="font-size:13.5px; margin-bottom:10px;">입력 가이드</h2>
             <p class="sub" style="line-height:1.7;">
               · 볼륨 = 세트별(중량(kg) × 반복수)의 합<br>
-              · 세트마다 중량을 따로 입력 가능(웜업·드롭세트 등)<br>
-              · 세트는 최소 1개, 최대 10개까지 추가 가능<br>
-              · 부위–운동 매핑은 기존 시트의 드롭다운 목록을 그대로 반영함
+              · 종목을 고르면 지난 기록의 중량·반복수가 자동으로 채워짐<br>
+              · "세트 완료"를 누르면 휴식 타이머가 시작됨(누르면 정지)<br>
+              · 완료한 세트는 목록에서 수정·삭제 가능, 최대 10세트<br>
+              · 머신/케이블은 스택 무게, 맨몸 운동은 체감 강도(레벨) 값 입력
             </p>
           </div>
           <div class="card" style="padding:16px;">
@@ -1279,16 +1424,16 @@
 
   // 부위별 고정 색상 — 블루→그린 순차 팔레트(10단계). 같은 부위는 앱 전체에서 항상 동일 색.
   var PART_COLORS = {
-    "다리":       {light:"#2d69be", dark:"#6492d3"},
-    "대흉근":     {light:"#2d7bbe", dark:"#64a0d3"},
-    "복직근":     {light:"#2d8dbe", dark:"#64aed3"},
-    "광배근":     {light:"#2d9fbe", dark:"#64bcd3"},
-    "삼각근":     {light:"#2db1be", dark:"#64cad3"},
-    "둔근":       {light:"#2dbeb9", dark:"#64d3cf"},
-    "전완근":     {light:"#2dbea7", dark:"#64d3c1"},
-    "상완삼두근": {light:"#2dbe95", dark:"#64d3b3"},
-    "승모근":     {light:"#2dbe82", dark:"#64d3a6"},
-    "상완이두근": {light:"#2dbe70", dark:"#64d398"}
+    "다리":       {light:"#86c4a0", dark:"#8fcca9"},
+    "대흉근":     {light:"#7fb0dc", dark:"#8cbbe4"},
+    "복직근":     {light:"#cfe8d8", dark:"#b5dbc3"},
+    "광배근":     {light:"#a6c8e8", dark:"#a9cbea"},
+    "삼각근":     {light:"#cddff1", dark:"#c4d9ee"},
+    "둔근":       {light:"#b3dcc2", dark:"#a3d3b5"},
+    "전완근":     {light:"#a3b8a8", dark:"#a9bdae"},
+    "상완삼두근": {light:"#9fb1c7", dark:"#a7b8cc"},
+    "승모근":     {light:"#c7d3ca", dark:"#bfcbc2"},
+    "상완이두근": {light:"#c8d2df", dark:"#bcc7d6"}
   };
   // 기본 10종 외 직접 추가한 부위의 색상 — 추가 팔레트에서 PARTS 순서 기준으로 고정 배정(앱 전체 동일 색 유지)
   var EXTRA_PART_COLORS = {};
@@ -1299,7 +1444,7 @@
   ];
   function partColor(part){
     var c = PART_COLORS[part] || EXTRA_PART_COLORS[part];
-    if(!c) return isDarkNow() ? '#6492d3' : '#2d69be';
+    if(!c) return isDarkNow() ? '#8cbbe4' : '#7fb0dc';
     return isDarkNow() ? c.dark : c.light;
   }
 
@@ -1875,9 +2020,9 @@
   var _lastWeekBodyPart3 = null;
   // 주차 슬롯 색상: 이번 주(하단, 블루) → 전주(중단, 틸) → 2주 전(상단, 그린)
   var WEEK3_COLORS = [
-    {light:"#2a78d6", dark:"#3987e5"},
-    {light:"#1ea597", dark:"#2bbfae"},
-    {light:"#1baf7a", dark:"#28b781"}
+    {light:"#7fb0dc", dark:"#8cbbe4"},
+    {light:"#a6c8e8", dark:"#9fbfdd"},
+    {light:"#cddff1", dark:"#6d8aa6"}
   ];
   function week3Color(slotIdx){
     var c = WEEK3_COLORS[slotIdx] || WEEK3_COLORS[WEEK3_COLORS.length-1];
@@ -2080,9 +2225,8 @@
         maxBarThickness:44,
         datalabels:{
           display:function(c){ return c.dataset.data[c.dataIndex] > 1600; },
-          color:'#fff',
-          textStrokeColor:'rgba(0,0,0,.32)',
-          textStrokeWidth:2,
+          color:'#14202b',
+          textStrokeWidth:0,
           font:{family:'Noto Sans KR', size:8.5, weight:'700'},
           formatter:function(v, ctx){ return ctx.dataset.label; },
           textAlign:'center'
@@ -2179,7 +2323,7 @@
     return '<div class="card rec-card">'+
       '<div class="rec-date">'+r.date.replace(/\(.+\)/,'')+'<b>'+r.date.match(/\((.)\)/)[1]+'</b></div>'+
       '<div class="rec-main">'+
-        '<div class="rec-top"><span class="badge" style="background:'+partColor(r.part)+'22; color:'+partColor(r.part)+'">'+r.part+'</span><span class="rec-name">'+r.ex+'</span></div>'+
+        '<div class="rec-top"><span class="badge" style="background:'+partColor(r.part)+'; color:#14202b">'+r.part+'</span><span class="rec-name">'+r.ex+'</span></div>'+
         '<div class="rec-sets">'+fmtSets(r.sets)+'</div>'+
       '</div>'+
       '<div class="rec-vol"><b class="num">'+r.v.toLocaleString()+'</b><span>kg 볼륨</span></div>'+
@@ -2286,79 +2430,182 @@
     bindDeleteButtons(el);
   }
 
-  /* ---------------- Log entry form ---------------- */
+  /* ---------------- Log entry form — 세션 모드(최종안 B) ---------------- */
+  // 내부 데이터 구조는 기존과 동일(fPart/fExercise select + #setList 세트 행) — 저장 형식(sets:[{w,reps}])·볼륨 계산식 변경 없음.
   var partSelect = document.getElementById('fPart');
   var exSelect = document.getElementById('fExercise');
   var setList = document.getElementById('setList');
+  var curW = document.getElementById('curW');
+  var curR = document.getElementById('curR');
+  var MAX_SETS = 10;
+  var prefillKey = ''; // 마지막으로 지난 기록을 자동 채움한 "부위|종목" — 같은 종목에 대해 반복 덮어쓰기 방지
+
+  function escHtml(t){ return String(t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
   partSelect.innerHTML = PARTS.map(function(p){ return '<option value="'+p+'">'+p+'</option>'; }).join('');
   function refreshPartSelect(){
     var prev = partSelect.value;
     partSelect.innerHTML = PARTS.map(function(p){ return '<option value="'+p+'">'+p+'</option>'; }).join('');
     if(PARTS.indexOf(prev)>=0) partSelect.value = prev;
+    renderLogChips();
   }
   function refreshExercises(){
     var p = partSelect.value;
+    var prev = exSelect.value;
     var list = PART_EXERCISES[p] || [];
-    exSelect.innerHTML = list.map(function(e){ return '<option value="'+e+'">'+e+'</option>'; }).join('');
+    exSelect.innerHTML = list.map(function(e){ return '<option value="'+escHtml(e)+'">'+escHtml(e)+'</option>'; }).join('');
+    if(list.indexOf(prev)>=0) exSelect.value = prev;
+    renderLogChips();
+    onExerciseChange();
   }
-  partSelect.addEventListener('change', refreshExercises);
-  refreshExercises();
+
+  // 부위·종목 칩 (숨겨진 select와 항상 동기화)
+  function renderLogChips(){
+    var pEl = document.getElementById('logPartChips');
+    var eEl = document.getElementById('logExChips');
+    if(!pEl || !eEl) return;
+    pEl.innerHTML = PARTS.map(function(p){
+      return '<button type="button" class="log-chip" data-part="'+escHtml(p)+'" aria-pressed="'+(p===partSelect.value)+'"><span class="pdot" style="background:'+partColor(p)+'"></span>'+escHtml(p)+'</button>';
+    }).join('');
+    var exs = PART_EXERCISES[partSelect.value] || [];
+    eEl.innerHTML = exs.length ? exs.map(function(e){
+      return '<button type="button" class="log-chip" data-ex="'+escHtml(e)+'" aria-pressed="'+(e===exSelect.value)+'">'+escHtml(e)+'</button>';
+    }).join('') : '<span class="ex-hist-empty">이 부위에 등록된 종목이 없음 — 설정에서 추가</span>';
+    pEl.querySelectorAll('.log-chip').forEach(function(c){
+      c.addEventListener('click', function(){
+        if(partSelect.value === c.getAttribute('data-part')) return;
+        partSelect.value = c.getAttribute('data-part');
+        exSelect.value = ''; refreshExercises();
+      });
+    });
+    eEl.querySelectorAll('.log-chip').forEach(function(c){
+      c.addEventListener('click', function(){
+        exSelect.value = c.getAttribute('data-ex');
+        eEl.querySelectorAll('.log-chip').forEach(function(x){ x.setAttribute('aria-pressed', x===c ? 'true':'false'); });
+        onExerciseChange();
+      });
+    });
+  }
+
+  // 같은 부위·종목의 과거 기록(최신순)
+  function sameExerciseRecords(){
+    var p = partSelect.value, e = exSelect.value;
+    return records.filter(function(r){ return r.part===p && r.ex===e; });
+  }
+  function renderExHistory(){
+    var el = document.getElementById('exHistory');
+    if(!el) return;
+    var list = sameExerciseRecords().slice(0,3);
+    el.innerHTML = list.length ? list.map(function(r){
+      return '<div class="ex-hist-row"><span class="d">'+r.date.replace(/\(.+\)/,'')+'</span><span class="s">'+escHtml(fmtSets(r.sets))+'</span><span class="v">'+r.v.toLocaleString()+' kg</span></div>';
+    }).join('') : '<p class="ex-hist-empty">이 종목의 이전 기록이 없음</p>';
+  }
+  function onExerciseChange(){
+    var name = exSelect.value || '–';
+    var nm = document.getElementById('curExName'); if(nm) nm.textContent = name;
+    renderExHistory();
+    // 종목이 바뀌면 지난 기록의 마지막 세트 중량·반복수를 현재 세트 입력값으로 채움(완료 세트가 없을 때만)
+    var key = partSelect.value+'|'+exSelect.value;
+    var last = sameExerciseRecords()[0];
+    if(last && key!==prefillKey && setList.querySelectorAll('.set-row').length===0){
+      var ls = last.sets[last.sets.length-1] || last.sets[0];
+      if(ls){ curW.value = ls.w; curR.value = ls.reps; }
+      prefillKey = key;
+    }
+    updateVolumePreview();
+  }
 
   var today = new Date();
-  document.getElementById('fDate').value = today.toISOString().slice(0,10);
-
-  var DEFAULT_SETS = [[20,12],[20,10],[20,10]]; // [중량, 반복수] 기본값(세트 3개)
+  function localISO(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
+  document.getElementById('fDate').value = localISO(today);
 
   function setRowHTML(i, w, reps){
     w = (w===undefined || w===null) ? '' : w;
     reps = (reps===undefined || reps===null) ? '' : reps;
-    return '<div class="set-row"><span class="set-idx">'+i+'</span>'+
+    return '<div class="set-row"><span class="set-idx">S'+i+'</span>'+
       '<div class="set-fields">'+
-        '<div class="set-w-wrap"><input type="number" inputmode="decimal" step="0.5" min="0" class="set-w" value="'+w+'" placeholder="중량"><span class="set-unit">kg</span></div>'+
+        '<div class="set-w-wrap"><input type="number" inputmode="decimal" step="0.5" min="0" class="set-w" value="'+w+'" placeholder="중량" aria-label="세트 중량"><span class="set-unit">kg</span></div>'+
         '<span class="set-x">×</span>'+
-        '<div class="set-reps-wrap"><input type="number" inputmode="numeric" min="0" class="set-reps" value="'+reps+'" placeholder="반복"><span class="set-unit">회</span></div>'+
+        '<div class="set-reps-wrap"><input type="number" inputmode="numeric" min="0" class="set-reps" value="'+reps+'" placeholder="반복" aria-label="세트 반복수"><span class="set-unit">회</span></div>'+
       '</div>'+
+      '<span class="set-v">0</span>'+
       '<button type="button" class="set-remove" aria-label="세트 삭제">'+
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'+
       '</button></div>';
   }
   function renumberSets(){
-    setList.querySelectorAll('.set-row').forEach(function(row,i){ row.querySelector('.set-idx').textContent = i+1; });
+    setList.querySelectorAll('.set-row').forEach(function(row,i){ row.querySelector('.set-idx').textContent = 'S'+(i+1); });
   }
   function addSetRow(w, reps){
     var rows = setList.querySelectorAll('.set-row').length;
-    if(rows>=10) return;
+    if(rows>=MAX_SETS){ showToast('세트는 최대 '+MAX_SETS+'개까지 가능'); return false; }
     var wrap = document.createElement('div');
     wrap.innerHTML = setRowHTML(rows+1, w, reps);
     var row = wrap.firstChild;
     setList.appendChild(row);
     row.querySelector('.set-remove').addEventListener('click', function(){
-      if(setList.querySelectorAll('.set-row').length<=1) return;
       row.remove(); renumberSets(); updateVolumePreview();
     });
     row.querySelector('.set-w').addEventListener('input', updateVolumePreview);
     row.querySelector('.set-reps').addEventListener('input', updateVolumePreview);
+    return true;
   }
-  document.getElementById('addSet').addEventListener('click', function(){
-    // 직전 세트와 같은 중량을 이어받아 채워줌(대부분 같은 중량을 반복 입력하는 경우가 많아 편의상 적용, 필요시 수정 가능)
+  function lastRowVals(){
     var rows = setList.querySelectorAll('.set-row');
     var lastRow = rows.length ? rows[rows.length-1] : null;
-    var lastW = lastRow ? parseFloat(lastRow.querySelector('.set-w').value) : NaN;
-    addSetRow(isNaN(lastW) ? 20 : lastW, '');
-    updateVolumePreview();
+    if(!lastRow) return null;
+    return { w:parseFloat(lastRow.querySelector('.set-w').value), reps:parseFloat(lastRow.querySelector('.set-reps').value) };
+  }
+
+  // 스테퍼(±, 빠른 증가)
+  document.querySelectorAll('#screen-log [data-step]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.getAttribute('data-step')==='w' ? curW : curR;
+      var d = parseFloat(btn.getAttribute('data-d'));
+      var v = (parseFloat(target.value)||0) + d;
+      target.value = Math.max(0, Math.round(v*10)/10);
+    });
+  });
+
+  // 세트 완료 → 완료 목록에 추가 + 휴식 타이머 시작
+  document.getElementById('completeSet').addEventListener('click', function(){
+    var w = parseFloat(curW.value), r = parseFloat(curR.value);
+    if(isNaN(w) || isNaN(r) || r<=0){ showToast('중량과 반복수를 입력할 것'); return; }
+    if(addSetRow(w, r)){ updateVolumePreview(); startRest(); }
+  });
+  document.getElementById('addSet').addEventListener('click', function(){
+    // 직전 세트(없으면 현재 입력값) 중량을 이어받고 반복수는 비워 둔 행을 추가
+    var last = lastRowVals();
+    var w = last && !isNaN(last.w) ? last.w : (parseFloat(curW.value)||20);
+    if(addSetRow(w, '')){
+      updateVolumePreview();
+      var rows = setList.querySelectorAll('.set-reps'); rows[rows.length-1].focus();
+    }
   });
   document.getElementById('copyLastSet').addEventListener('click', function(){
-    // 직전 세트의 중량·반복수를 그대로 복사(동일한 세트를 반복할 때 편의상 적용)
-    var rows = setList.querySelectorAll('.set-row');
-    var lastRow = rows.length ? rows[rows.length-1] : null;
-    if(!lastRow){ showToast('복사할 이전 세트가 없음'); return; }
-    var lastW = parseFloat(lastRow.querySelector('.set-w').value);
-    var lastReps = parseFloat(lastRow.querySelector('.set-reps').value);
-    addSetRow(isNaN(lastW) ? 20 : lastW, isNaN(lastReps) ? '' : lastReps);
-    updateVolumePreview(); // 복사한 세트를 총 볼륨에 즉시 반영
+    var last = lastRowVals();
+    if(!last){ showToast('복사할 이전 세트가 없음'); return; }
+    if(addSetRow(isNaN(last.w) ? 20 : last.w, isNaN(last.reps) ? '' : last.reps)) updateVolumePreview();
   });
-  DEFAULT_SETS.forEach(function(pair){ addSetRow(pair[0], pair[1]); });
+
+  // 휴식 타이머 (세트 완료 시 0부터 카운트업, 누르면 정지)
+  var restStart = 0, restTimerId = null;
+  function startRest(){
+    restStart = Date.now();
+    document.getElementById('restTimer').classList.add('on');
+    if(restTimerId) clearInterval(restTimerId);
+    tickRest();
+    restTimerId = setInterval(tickRest, 1000);
+  }
+  function tickRest(){
+    var sec = Math.floor((Date.now()-restStart)/1000);
+    document.getElementById('restTimerText').textContent = '휴식 '+pad2(Math.floor(sec/60))+':'+pad2(sec%60);
+  }
+  function stopRest(){
+    if(restTimerId){ clearInterval(restTimerId); restTimerId = null; }
+    document.getElementById('restTimer').classList.remove('on');
+  }
+  document.getElementById('restTimer').addEventListener('click', stopRest);
 
   function currentSets(){
     return Array.prototype.slice.call(setList.querySelectorAll('.set-row')).map(function(row){
@@ -2371,27 +2618,52 @@
   function updateVolumePreview(){
     var v = vol(currentSets());
     document.getElementById('volPreview').textContent = v.toLocaleString()+' kg';
+    var rows = setList.querySelectorAll('.set-row');
+    rows.forEach(function(row){
+      var w = parseFloat(row.querySelector('.set-w').value)||0, r = parseFloat(row.querySelector('.set-reps').value)||0;
+      row.querySelector('.set-v').textContent = (w*r).toLocaleString();
+    });
+    var n = rows.length;
+    document.getElementById('curSetNo').textContent = 'SET '+Math.min(n+1, MAX_SETS);
+    document.getElementById('completeSetText').textContent = n>=MAX_SETS ? '최대 세트 도달' : '세트 '+(n+1)+' 완료';
+    document.getElementById('doneCount').textContent = n+' / '+MAX_SETS;
+    document.getElementById('doneEmpty').style.display = n ? 'none' : 'block';
+    // 지난 기록(같은 종목 최신 1건) 대비 진행률
+    var last = sameExerciseRecords()[0];
+    var cmp = document.getElementById('cmpWrap');
+    if(last && last.v>0){
+      var pct = Math.round(v/last.v*100);
+      cmp.classList.add('on');
+      document.getElementById('cmpLabel').textContent = '지난 기록 대비 ('+last.date.replace(/\(.+\)/,'')+' · '+last.v.toLocaleString()+'kg)';
+      document.getElementById('cmpPct').textContent = pct+'%';
+      document.getElementById('cmpFill').style.width = Math.min(pct,100)+'%';
+    } else {
+      cmp.classList.remove('on');
+    }
   }
-  updateVolumePreview();
+
+  partSelect.addEventListener('change', refreshExercises);
+  refreshExercises();
 
   document.getElementById('logForm').addEventListener('submit', function(ev){
     ev.preventDefault();
     var sets = currentSets();
-    if(sets.length===0){ showToast('세트별 중량과 반복수를 1개 이상 입력'); return; }
+    if(sets.length===0){ showToast('완료한 세트가 1개 이상 필요'); return; }
+    if(!exSelect.value){ showToast('운동 종목을 선택할 것'); return; }
     var dateVal = document.getElementById('fDate').value; // yyyy-mm-dd
     if(!dateVal){ showToast('날짜를 선택할 것'); return; }
     var rec = { date:dateVal, part:partSelect.value, ex:exSelect.value, sets:sets };
     rec.v = vol(rec.sets);
     var submitBtn = this.querySelector('.submit-btn');
     submitBtn.disabled = true; submitBtn.textContent = '저장 중…';
-    var formEl = this;
     addRecord(rec).then(function(){
-      showToast('기록이 저장됨');
-      formEl.reset();
-      document.getElementById('fDate').value = today.toISOString().slice(0,10);
+      showToast('기록이 저장됨 — 다음 종목을 선택');
+      // 세션 유지: 날짜·부위·종목은 그대로 두고 완료 세트만 비움
       setList.innerHTML='';
-      DEFAULT_SETS.forEach(function(pair){ addSetRow(pair[0], pair[1]); });
+      stopRest();
+      prefillKey = '';
       updateVolumePreview();
+      renderExHistory();
     }).catch(function(err){
       showToast('저장 실패: '+err.message);
     }).finally(function(){
@@ -2418,6 +2690,22 @@
   }
 
   /* ---------------- 상단 통계 카드 (실시간 계산) ---------------- */
+  // 이번 주(월~일) 요일 스트립 — 운동한 날은 채움, 오늘은 블루 테두리
+  function renderWeekStrip(daysSet){
+    var el = document.getElementById('weekStrip');
+    if(!el) return;
+    var now = new Date(); now.setHours(0,0,0,0);
+    var mon = new Date(now); mon.setDate(now.getDate() - ((now.getDay()+6)%7));
+    var names = ['월','화','수','목','금','토','일'];
+    var html = '';
+    for(var i=0;i<7;i++){
+      var d = new Date(mon); d.setDate(mon.getDate()+i);
+      var on = !!daysSet[fmtDate(d)];
+      var isToday = d.getTime()===now.getTime();
+      html += '<div class="wk-day'+(on?' on':'')+(isToday?' today':'')+'"><span>'+names[i]+'</span><span class="wk-dot" aria-label="'+(d.getMonth()+1)+'월 '+d.getDate()+'일'+(on?' 운동함':'')+'">'+d.getDate()+'</span></div>';
+    }
+    el.innerHTML = html;
+  }
   function renderStats(){
     var thisWeek = isoWeek(new Date());
     var lastWeek = thisWeek - 1;
@@ -2431,16 +2719,19 @@
       }
       if(r.wn===lastWeek) lastWeekTotal += r.v;
     });
-    document.getElementById('dashPeriodSub').textContent = thisWeek+'주차 기준';
+    document.getElementById('dashPeriodSub').textContent = 'W'+thisWeek;
+    renderWeekStrip(daysSet);
     document.getElementById('statVolume').innerHTML = thisWeekTotal.toLocaleString()+' <small>kg</small>';
     var deltaEl = document.getElementById('statDelta');
     if(lastWeekTotal>0){
       var pct = (thisWeekTotal-lastWeekTotal)/lastWeekTotal*100;
       deltaEl.className = 'delta '+(pct>=0?'up':'down');
-      deltaEl.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="'+(pct>=0?'M6 16l6-8 6 8':'M6 8l6 8 6-8')+'"/></svg>전주 대비 '+Math.abs(pct).toFixed(1)+'%';
+      deltaEl.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="'+(pct>=0?'M6 16l6-8 6 8':'M6 8l6 8 6-8')+'"/></svg><span class="fig">'+Math.abs(pct).toFixed(1)+'%</span>';
+      document.getElementById('statDeltaNote').textContent = '전주 '+lastWeekTotal.toLocaleString()+'kg 대비';
     } else {
       deltaEl.className = 'delta';
       deltaEl.innerHTML = '<span style="color:var(--muted); font-weight:500;">전주 기록 없음</span>';
+      document.getElementById('statDeltaNote').textContent = '';
     }
     document.getElementById('statDays').innerHTML = Object.keys(daysSet).length+' <small>일 / 7일</small>';
     var topPart = Object.keys(partThisWeek).sort(function(a,b){ return partThisWeek[b]-partThisWeek[a]; })[0];
@@ -2468,7 +2759,8 @@
     // 각 렌더 단계는 독립적으로 실행함 — 특정 단계(예: 차트 라이브러리 로딩 실패)에서
     // 오류가 나도 나머지 화면(이력/최근기록/가져오기 상태 등)까지 함께 멈추지 않도록 함.
     [renderStats, renderRank, renderWeeklyStatusChart, renderThreeWeekChart, renderDailyChart,
-     renderRecent, renderHistory, renderTodayList, renderImportScreen, renderTaxonomySettings].forEach(function(fn){
+     renderRecent, renderHistory, renderTodayList, renderImportScreen, renderTaxonomySettings,
+     renderLogChips, onExerciseChange].forEach(function(fn){
       try{ fn(); }catch(e){ console.error('[renderAll] '+(fn.name||'render')+' 실패', e); }
     });
   }
