@@ -6,7 +6,7 @@
 // 캐시 우선이라 배포 후 새 기능이 기기에 바로 반영되지 않는 문제가 있었음. 아이콘/manifest
 // 등 거의 안 바뀌는 정적 파일만 캐시 우선을 유지함.
 
-const CACHE_NAME = 'workout-log-shell-v3';
+const CACHE_NAME = 'workout-log-shell-v4';
 const APP_SHELL = [
   './manifest.json',
   './icons/icon-192.png',

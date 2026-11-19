@@ -2346,6 +2346,7 @@
     var lastRow = rows.length ? rows[rows.length-1] : null;
     var lastW = lastRow ? parseFloat(lastRow.querySelector('.set-w').value) : NaN;
     addSetRow(isNaN(lastW) ? 20 : lastW, '');
+    updateVolumePreview();
   });
   document.getElementById('copyLastSet').addEventListener('click', function(){
     // 직전 세트의 중량·반복수를 그대로 복사(동일한 세트를 반복할 때 편의상 적용)
@@ -2355,6 +2356,7 @@
     var lastW = parseFloat(lastRow.querySelector('.set-w').value);
     var lastReps = parseFloat(lastRow.querySelector('.set-reps').value);
     addSetRow(isNaN(lastW) ? 20 : lastW, isNaN(lastReps) ? '' : lastReps);
+    updateVolumePreview(); // 복사한 세트를 총 볼륨에 즉시 반영
   });
   DEFAULT_SETS.forEach(function(pair){ addSetRow(pair[0], pair[1]); });
 
